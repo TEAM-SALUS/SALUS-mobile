@@ -54,6 +54,7 @@ public class Turnero_Medicos extends AppCompatActivity {
     private String obraSocial;
     private int idPaciente;
     private List<TurnoDisponible> turnosDisp;
+    private String medicoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class Turnero_Medicos extends AppCompatActivity {
         tvSelectDoctor.setText(medico_incoming);
         spinnerDoctor.setText(especialidad_incoming);
 
-        String medicoId = extras.get("MedicoID").toString();
+        medicoId = extras.get("MedicoID").toString();
         String especialidadId = extras.get("EspecialidadID").toString();
         Log.d("Medico ID:" , medicoId);
         Log.d("Especialidad ID:" , especialidadId);
@@ -135,9 +136,15 @@ public class Turnero_Medicos extends AppCompatActivity {
             public void onResponse(Call<List<TurnoDisponible>> call, Response<List<TurnoDisponible>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     turnosDisp = response.body();
+                    List<TurnoDisponible> turnosDispM = new ArrayList<>();
+                    for(TurnoDisponible turno : turnosDisp){
+                        if(turno.getMedico() == Integer.valueOf(medicoId)){
+                            turnosDispM.add(turno);
+                        }
+                    }
                     //List<String> turnosDisp = Arrays.asList("Lunes 18hs", "Miércoles 19HS", "Viernes 15hs");
                     spinnerTD = findViewById(R.id.spinnerTurnoDisponible);
-                    ArrayAdapter adapterTD =new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, turnosDisp);
+                    ArrayAdapter adapterTD =new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, turnosDispM);
                     adapterTD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerTD.setAdapter(adapterTD);
                 } else {
@@ -209,6 +216,8 @@ public class Turnero_Medicos extends AppCompatActivity {
             public void onResponse(Call<Turno> call, Response<Turno> response) {
                 if(response.isSuccessful()){
                     Toast.makeText(Turnero_Medicos.this, "Turno registrado", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Turnero_Medicos.this, home.class);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(Turnero_Medicos.this, "Error al registrar turno", Toast.LENGTH_SHORT).show();
                 }
