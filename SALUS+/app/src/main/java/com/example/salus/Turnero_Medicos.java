@@ -20,8 +20,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.salus.dao.URLConection;
 import com.example.salus.entidad.Autorizacion;
+import com.example.salus.entidad.PacienteResponse;
 import com.example.salus.entidad.Turno;
+import com.example.salus.entidad.TurnoDisponible;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -39,11 +42,18 @@ public class Turnero_Medicos extends AppCompatActivity {
 
     private TextView spinnerDoctor;
     private TextView tvSelectDoctor;
-    private DatePicker datePicker;
-    private TimePicker timePicker;
     private Button btnSubmit;
     private Spinner spinnerOS;
     private Spinner spinnerTD;
+    private String token;
+    private int userId;
+    private Boolean pagado;
+    private String estado;
+    private int turnoDisponible;
+    private int idMedico;
+    private String obraSocial;
+    private int idPaciente;
+    private List<TurnoDisponible> turnosDisp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +63,6 @@ public class Turnero_Medicos extends AppCompatActivity {
         spinnerDoctor = findViewById(R.id.spinnerDoctor);
         tvSelectDoctor = findViewById(R.id.tvSelectDoctor);
         btnSubmit = findViewById(R.id.btnSubmit);
-
-        // Configurar Spinner con una lista de doctores
-        /*ArrayList<String> doctorList = new ArrayList<>();
-        doctorList.add("Dr. Smith");
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, doctorList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerDoctor.setAdapter(adapter);*/
-
-        // Comente lo de arriba porque ese codigo creaba el spinner, el cual ya no es mas un spinner
-        // sino que es un textView que seria donde se ve la especialidad ahora
 
         // Este es el bundle que se trae los datos que mando desde la activity ProfesionalActivity.java
         // Te mando el nombre completo del medico y la especialidad
@@ -82,77 +81,31 @@ public class Turnero_Medicos extends AppCompatActivity {
         Log.d("Medico ID:" , medicoId);
         Log.d("Especialidad ID:" , especialidadId);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(login.SHARED_PREFS, MODE_PRIVATE);
+        token = sharedPreferences.getString(login.TOKEN_KEY, null);
+        userId = sharedPreferences.getInt(login.USER_ID_KEY, 0);
+
+        cargarTurnosDisponibles();
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
 
-            HttpLoggingInterceptor loggin = new HttpLoggingInterceptor();
             @Override
             public void onClick(View v) {
 
-                //Intent intento = new Intent(Turnero_Medicos.this, Pago.class);
-                //intento.putExtra("Medico",spinnerDoctor.getText());
-                //intento.putExtra("MedicoID",medicoId);
-                //intento.putExtra("EspecialidadID",especialidadId);
+                pagado = false;
 
-                //String selectedDoctor = spinnerDoctor.getSelectedItem().toString();
-                //String selectedDoctor = "asd";
-                //int day = datePicker.getDayOfMonth();
-                //int month = datePicker.getMonth();
-                //int year = datePicker.getYear();
-                //int hour = timePicker.getHour();
-                //int minute = timePicker.getMinute();
-                //intento.putExtra("Fecha",year+"/"+month+"/"+day);
-                //intento.putExtra("Hora",hour+":"+minute);
+                estado = "";
 
-                //String appointmentDetails = "Doctor: " + selectedDoctor + "\n" +
-                        //"Date: " + day + "/" + (month + 1) + "/" + year + "\n" +
-                        //"Time: " + String.format("%02d:%02d", hour, minute);
+                turnoDisponible = ((TurnoDisponible) spinnerTD.getSelectedItem()).getId();
 
-                //Toast.makeText(Turnero_Medicos.this, appointmentDetails, Toast.LENGTH_LONG).show();
+                idMedico = Integer.valueOf(medicoId);
 
-                //startActivity(Intent.createChooser(intento,"Compartir en").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                obraSocial = spinnerOS.getSelectedItem().toString();
 
-                Boolean pagado = false;
-                String estado = "";
-                Integer turno_disponible = 1;
-                Integer id_paciente = 3;
-                Integer id_medico = 1;
-                String obra_social = "Particular";
-                loggin.setLevel(HttpLoggingInterceptor.Level.BODY);
-                OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-                httpClient.addInterceptor(loggin);
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(URLConection.URLPrivada)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .client(httpClient.build())
-                        .build();
-                ApiDjango turno = retrofit.create(ApiDjango.class);
-                Call<Turno> call = turno.agregarTurno(pagado, estado, turno_disponible, id_paciente, id_medico, obra_social);
-
-                call.enqueue(new Callback<Turno>() {
-                    @Override
-                    public void onResponse(Call<Turno> call, Response<Turno> response) {
-                        if(response.isSuccessful()){
-                            Toast.makeText(Turnero_Medicos.this, "Turno registrado", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(Turnero_Medicos.this, "Error al registrar turno", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Turno> call, Throwable t) {
-                        Toast.makeText(Turnero_Medicos.this, t.toString(), Toast.LENGTH_SHORT).show();
-                        Log.e("Error request", t.toString());
-                    }
-                });
+                getIdPaciente();
 
             }
         });
-
-        List<String> turnosDisp = Arrays.asList("Lunes 18hs", "Miércoles 19HS", "Viernes 15hs");
-        spinnerTD = findViewById(R.id.spinnerTurnoDisponible);
-        ArrayAdapter adapterTD =new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, turnosDisp);
-        adapterTD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerTD.setAdapter(adapterTD);
 
         List<String> obrasSoc = Arrays.asList("Particular", "IOMA", "OSDE", "SanCor");
         spinnerOS = findViewById(R.id.spinnerObraSocial);
@@ -162,5 +115,112 @@ public class Turnero_Medicos extends AppCompatActivity {
 
     }
 
+    private void cargarTurnosDisponibles() {
+
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(httpLoggingInterceptor);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLConection.URLPrivada)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+
+        ApiDjango apiDjango = retrofit.create(ApiDjango.class);
+
+        Call<List<TurnoDisponible>> call = apiDjango.getTurnosDisponibles("Token " + token);
+        call.enqueue(new Callback<List<TurnoDisponible>>() {
+            @Override
+            public void onResponse(Call<List<TurnoDisponible>> call, Response<List<TurnoDisponible>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    turnosDisp = response.body();
+                    //List<String> turnosDisp = Arrays.asList("Lunes 18hs", "Miércoles 19HS", "Viernes 15hs");
+                    spinnerTD = findViewById(R.id.spinnerTurnoDisponible);
+                    ArrayAdapter adapterTD =new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, turnosDisp);
+                    adapterTD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerTD.setAdapter(adapterTD);
+                } else {
+                    Toast.makeText(Turnero_Medicos.this, "Error al cargar turnos disponibles", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TurnoDisponible>> call, Throwable t) {
+                Log.e("ProfileActivity", "Request failed: " + t.getMessage());
+                Toast.makeText(Turnero_Medicos.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void getIdPaciente(){
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(httpLoggingInterceptor);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLConection.URLPrivada)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+
+        ApiDjango apiDjango = retrofit.create(ApiDjango.class);
+
+        Call<List<PacienteResponse>> call = apiDjango.getPerfil("Token " + token, userId);
+        call.enqueue(new Callback<List<PacienteResponse>>() {
+            @Override
+            public void onResponse(Call<List<PacienteResponse>> call, Response<List<PacienteResponse>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    PacienteResponse paciente = response.body().get(0);
+                    idPaciente = paciente.getId();
+                    Log.d("IDP OBTENIDO", String.valueOf(idPaciente));
+                    registrarTurno(pagado, estado, turnoDisponible, idPaciente, idMedico, obraSocial);
+                } else {
+                    Log.e("IDP NO OBTENIDO", "Error response code: " + response.code());
+                    Toast.makeText(Turnero_Medicos.this, "Error al cargar el perfil", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PacienteResponse>> call, Throwable t) {
+                Log.e("ProfileActivity", "Request failed: " + t.getMessage());
+                Toast.makeText(Turnero_Medicos.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void registrarTurno(Boolean pagado, String estado, int turno_disponible, int id_paciente, int id_medico, String obraSocial){
+
+        HttpLoggingInterceptor loggin = new HttpLoggingInterceptor();
+        loggin.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(loggin);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLConection.URLPrivada)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        ApiDjango turno = retrofit.create(ApiDjango.class);
+        Call<Turno> call = turno.agregarTurno(pagado, estado, turno_disponible, id_paciente, id_medico, obraSocial);
+
+        call.enqueue(new Callback<Turno>() {
+            @Override
+            public void onResponse(Call<Turno> call, Response<Turno> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(Turnero_Medicos.this, "Turno registrado", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(Turnero_Medicos.this, "Error al registrar turno", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Turno> call, Throwable t) {
+                Toast.makeText(Turnero_Medicos.this, t.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("Error request", t.toString());
+            }
+        });
+
+    }
 
 }

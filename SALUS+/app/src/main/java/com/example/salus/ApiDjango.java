@@ -12,6 +12,7 @@ import com.example.salus.entidad.PacienteRequest;
 import com.example.salus.entidad.PacienteResponse;
 import com.example.salus.entidad.RegisterRequest;
 import com.example.salus.entidad.RegisterResponse;
+import com.example.salus.entidad.TurnoDisponible;
 import com.example.salus.entidad.UserProfile;
 import com.example.salus.entidad.UserProfileResponse;
 import com.example.salus.entidad.UsuarioResponse;
@@ -88,6 +89,9 @@ public interface ApiDjango {
     //____ Profesional ____
     @GET("medico")
     Call<List<Medicos>> getMedicos();
+
+    @GET("turnos-disponibles")
+    Call<List<TurnoDisponible>> getTurnosDisponibles(@Header("Authorization") String token);
 
 
 }
