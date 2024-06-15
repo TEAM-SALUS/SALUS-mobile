@@ -36,4 +36,6 @@
     <string name="consultas">Consultas</string>
     <string name="ver_consulta">Ver consulta</string>
     <string name="ir_home">Ir Home</string>
+    <string name="doctor_photo">Foto del doctor</string>
+    <string name="ver_turnos_disponibles">Ver turnos disponibles</string>
 </resources>

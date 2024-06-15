@@ -11,7 +11,7 @@ Este proyecto consiste en una aplicación que permite sacar un turno médico. La
 #### Olima Quinteros, Félix Sebastián
 #### Orellano, Esteban Joselo
 #### Quispe, Rosana G.
-#### Ramos, Isaias Rubén
+#### Ramos, Ruben Isaias
 #### Sanchez Tejeda, Angel Pablo Sebastian 
 #### Vázquez, Ian Camilo
 

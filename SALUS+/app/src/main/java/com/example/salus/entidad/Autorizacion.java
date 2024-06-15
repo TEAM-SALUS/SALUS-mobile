@@ -3,11 +3,13 @@ package com.example.salus.entidad;
 public class Autorizacion {
     private String expiracy;
     private String token;
+    //private int id;
     public Autorizacion() {
     }
     public Autorizacion(String expiracy, String token) {
         this.expiracy = expiracy;
         this.token = token;
+        //this.id = id;
     }
     public String getExpiracy() {
         return expiracy;
@@ -21,6 +23,9 @@ public class Autorizacion {
     public void setToken(String token) {
         this.token = token;
     }
+
+
+
     @Override
     public String toString() {
         return "Autorizacion{" +

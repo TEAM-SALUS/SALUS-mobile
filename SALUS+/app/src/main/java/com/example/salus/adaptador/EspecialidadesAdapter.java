@@ -62,8 +62,8 @@ public class EspecialidadesAdapter extends RecyclerView.Adapter<EspecialidadesAd
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProfesionalActivity.class);
-                intent.putExtra("especialidadID",especialidades.get(position).getId());
-                context.startActivity(Intent.createChooser(intent,"Compartir en").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                intent.putExtra("especialidadId", especialidad.getId()); // Verifica que especialidad.getId() retorne el ID correcto
+                context.startActivity(intent);
             }
         });
     }

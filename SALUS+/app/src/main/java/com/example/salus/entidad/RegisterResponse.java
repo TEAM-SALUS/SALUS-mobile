@@ -4,12 +4,6 @@ public class RegisterResponse {
     private User user;
     private String token;
 
-    public RegisterResponse(User user, String token) {
-        this.user = user;
-        this.token = token;
-    }
-
-    // Getters y Setters
     public User getUser() {
         return user;
     }
@@ -24,5 +18,17 @@ public class RegisterResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public static class User {
+        private int id;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
     }
 }

@@ -133,4 +133,33 @@ public class Turno {
     public void setId(Integer id) {
         this.id = id;
     }
+
+
+    /*
+    public void Pagar(int monto, String fecha, String hora, String estado, int id_turno) {
+        Pago pago = new Pago(monto, fecha, hora, estado, id_turno);
+
+        Call<Pago> call = ApiDjango.pagar(pago);
+        call.enqueue(new Callback<Pago>() {
+            @Override
+            public void onResponse(Call<Pago> call, Response<Pago> response) {
+                if (response.isSuccessful()) {
+                    Pago pagoResponse = response.body();
+                    // Manejar la respuesta del servidor aquí
+                    Toast.makeText(Turnos.this, "Pago realizado exitosamente", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Toast.makeText(Turnos.this, "Error en el servidor al realizar el pago", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Pago> call, Throwable t) {
+
+                Toast.makeText(Turnos.this, "Error en la conexión al simular el pago", Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
+
 }
+

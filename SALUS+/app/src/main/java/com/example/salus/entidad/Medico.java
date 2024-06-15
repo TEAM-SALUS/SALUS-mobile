@@ -1,15 +1,28 @@
 package com.example.salus.entidad;
 
-import android.net.Uri;
+import java.util.List;
 
 public class Medico {
+    private int id;
     private String matricula;
     private String nombre;
     private String apellido;
-    private Integer id_especialidad;
-    private String foto;
+    private String email;
     private String telefono;
+    private String foto;
+    private int id_horario;
+    private int id_especialidad;
+    private List<HorarioDeAtencion> horariosDeAtencion;
+
     // Getters y setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getMatricula() {
         return matricula;
@@ -18,6 +31,7 @@ public class Medico {
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
+
     public String getNombre() {
         return nombre;
     }
@@ -34,6 +48,22 @@ public class Medico {
         this.apellido = apellido;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
     public String getFoto() {
         return foto;
     }
@@ -42,19 +72,28 @@ public class Medico {
         this.foto = foto;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public int getId_horario() {
+        return id_horario;
     }
 
-    public void setTelefono(String foto) {
-        this.telefono = telefono;
+    public void setId_horario(int id_horario) {
+        this.id_horario = id_horario;
     }
 
-    public Integer getId_especialidad() {
+    public int getId_especialidad() {
         return id_especialidad;
     }
 
-    public void setId_especialidad(Integer id_especialidad) {
+    public void setId_especialidad(int id_especialidad) {
         this.id_especialidad = id_especialidad;
     }
+
+    public List<HorarioDeAtencion> getHorariosDeAtencion() {
+        return horariosDeAtencion;
+    }
+
+    public void setHorariosDeAtencion(List<HorarioDeAtencion> horariosDeAtencion) {
+        this.horariosDeAtencion = horariosDeAtencion;
+    }
 }
+
