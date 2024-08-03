@@ -1,24 +1,38 @@
 package com.example.salus;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.salus.dao.URLConection;
+import com.bumptech.glide.Glide;
+import com.example.salus.entidad.Paciente;
+import com.example.salus.entidad.PacienteEditar;
+import com.example.salus.io.SalusBDApiAdapter;
+import com.example.salus.io.URLConection;
 import com.example.salus.entidad.PacienteRequest;
 import com.example.salus.entidad.PacienteResponse;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,24 +41,27 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileActivity extends AppCompatActivity {
-    private EditText etEmail, etClave, etDni, etNombre, etApellido, etTelefono;
-    private Button btnSave, btnDelete;
+    private EditText etEmailPciente, etClavePaciente, etDniPaciente, etNombrePaciente, etApellidoPaciente, etTelefonoPaciente;
+    private Button btnSavePaciente, btnDeletePaciente;
+    private ImageView imgPerfilPaciente;
     private String token;
     private int userId;
+    private static PacienteEditar pacienteNuevo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        etEmail = findViewById(R.id.etEmail);
-        etClave = findViewById(R.id.etClave);
-        etDni = findViewById(R.id.etDniPaciente);
-        etNombre = findViewById(R.id.etNombre);
-        etApellido = findViewById(R.id.etApellido);
-        etTelefono = findViewById(R.id.etTelefono);
-        btnSave = findViewById(R.id.btnSave);
-        btnDelete = findViewById(R.id.btnDelete);
+        etEmailPciente = findViewById(R.id.etEmailPciente);
+        etClavePaciente = findViewById(R.id.etClavePaciente);
+        etDniPaciente = findViewById(R.id.etDniPaciente);
+        etNombrePaciente = findViewById(R.id.etNombrePaciente);
+        etApellidoPaciente = findViewById(R.id.etApellidoPaciente);
+        etTelefonoPaciente = findViewById(R.id.etTelefonoPaciente);
+        btnSavePaciente = findViewById(R.id.btnSavePaciente);
+        btnDeletePaciente = findViewById(R.id.btnDeletePaciente);
+        imgPerfilPaciente = findViewById(R.id.imgPerfilPaciente);
 
         SharedPreferences sharedPreferences = getSharedPreferences(login.SHARED_PREFS, MODE_PRIVATE);
         token = sharedPreferences.getString(login.TOKEN_KEY, null);
@@ -60,21 +77,112 @@ public class ProfileActivity extends AppCompatActivity {
 
         loadProfile();
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        btnSavePaciente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateProfile();
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ProfileActivity.this);
+                alerta.setTitle("Confirmar para actualizar perfil")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Llamar a la funcion para actualizar perfil
+                                updateProfile();
+                                Toast.makeText(ProfileActivity.this, "Perfil actualizado", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = alerta.create();
+                alertDialog.show();
             }
         });
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
+        btnDeletePaciente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteProfile();
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ProfileActivity.this);
+                alerta.setTitle("Confirmar para eliminar perfil")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Llamar a la funcion para eliminar perfil
+                                deleteProfile();
+                                Toast.makeText(ProfileActivity.this, "Perfil eliminado", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = alerta.create();
+                alertDialog.show();
+            }
+        });
+
+        imgPerfilPaciente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(ProfileActivity.this,"Camara abierta",Toast.LENGTH_LONG).show();
+                abrirCamara();
             }
         });
     }
 
+    public void loadProfile() {
+        Call<Paciente> call = SalusBDApiAdapter.getApiService().getPacienteUsuarioId("Token " + token, userId);
+        call.enqueue(new Callback<Paciente>() {
+            @Override
+            public void onResponse(Call<Paciente> call, Response<Paciente> response) {
+                if (response.isSuccessful()) {
+                    Paciente paciente = response.body();
+                    pacienteNuevo = new PacienteEditar();
+
+                    Log.d("HELP GOD: ",paciente.toString());
+                    Log.d("HELP GOD: ",paciente.getId().toString());
+
+                    pacienteNuevo.setId(paciente.getId());
+                    Log.d("HELP GOD: ",pacienteNuevo.getId().toString());
+                    pacienteNuevo.setDni_paciente(paciente.getDni_paciente());
+                    pacienteNuevo.setNombre(paciente.getNombre());
+                    pacienteNuevo.setApellido(paciente.getApellido());
+                    pacienteNuevo.setEmail(paciente.getEmail());
+                    pacienteNuevo.setClave(paciente.getClave());
+                    pacienteNuevo.setTelefono(paciente.getTelefono());
+                    pacienteNuevo.setIs_active(paciente.getIs_active());
+                    pacienteNuevo.setId_obra_social(paciente.getId_obra_social());
+                    pacienteNuevo.setPacienteUser(paciente.getPacienteUser());
+                    //pacienteNuevo.set(paciente.get());
+
+                    Log.d("paciente", "paciente recuperado " + paciente);
+                    Log.d("paciente", "###########################");
+                    Log.d("pacienteNuevo", "paciente recuperado " + pacienteNuevo);
+                    Glide.with(ProfileActivity.this).load(URLConection.URLPrivadaIMG + paciente.getFoto()).into(imgPerfilPaciente);
+                    etEmailPciente.setText(paciente.getEmail());
+                    etClavePaciente.setText(paciente.getClave());
+                    etDniPaciente.setText(paciente.getDni_paciente());
+                    etNombrePaciente.setText(paciente.getNombre());
+                    etApellidoPaciente.setText(paciente.getApellido());
+                    etTelefonoPaciente.setText(paciente.getTelefono());
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Paciente> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("Error request", t.toString());
+            }
+        });
+    }
+
+    /*
     private void loadProfile() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -121,7 +229,79 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+     */
 
+    private void updateProfile() {
+        Log.d("paciente", "paciente nuevo recuperado " + pacienteNuevo);
+
+        //Glide.with(ProfileActivity.this).load(URLConection.URLPrivadaIMG + pacienteNuevo.getFoto()).into(imgPerfilPaciente);
+        pacienteNuevo.setFoto(pacienteNuevo.getFoto());
+        pacienteNuevo.setEmail(etEmailPciente.getText().toString());
+        pacienteNuevo.setClave(etClavePaciente.getText().toString());
+        pacienteNuevo.setDni_paciente(etDniPaciente.getText().toString());
+        pacienteNuevo.setNombre(etNombrePaciente.getText().toString());
+        pacienteNuevo.setApellido(etApellidoPaciente.getText().toString());
+        pacienteNuevo.setTelefono(etTelefonoPaciente.getText().toString());
+
+        Log.d("paciente", "paciente nuevo por actualizar### " + pacienteNuevo.toString());
+
+        Call<Paciente> call = SalusBDApiAdapter.getApiService().updatePaciente("Token " + token, userId, pacienteNuevo);
+        call.enqueue(new Callback<Paciente>() {
+            @Override
+            public void onResponse(Call<Paciente> call, Response<Paciente> response) {
+                if (response.isSuccessful()) {
+                    Paciente paciente = response.body();
+                    Log.d("paciente", "paciente actualizado " + paciente);
+
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Paciente> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("Error request", t.toString());
+            }
+        });
+
+        /*
+        Call<Paciente> call = SalusBDApiAdapter.getApiService().getPacienteUsuarioId("Token " + token, userId);
+        call.enqueue(new Callback<Paciente>() {
+            @Override
+            public void onResponse(Call<Paciente> call, Response<Paciente> response) {
+                if (response.isSuccessful()) {
+                    Paciente paciente = response.body();
+                    Log.d("paciente", "paciente recuperado " + paciente);
+                    Glide.with(ProfileActivity.this).load(URLConection.URLPrivadaIMG + paciente.getFoto()).into(imgPerfilPaciente);
+                    //etEmailPciente.setText(paciente.getEmail());
+                    paciente.setEmail(etEmailPciente.getText().toString());
+                    //etClavePaciente.setText(paciente.getClave());
+                    paciente.setClave(etClavePaciente.getText().toString());
+                    //etDniPaciente.setText(paciente.getDni_paciente());
+                    paciente.setDni_paciente(etDniPaciente.getText().toString());
+                    //etNombrePaciente.setText(paciente.getNombre());
+                    paciente.setNombre(etNombrePaciente.getText().toString());
+                    //etApellidoPaciente.setText(paciente.getApellido());
+                    paciente.setApellido(etApellidoPaciente.getText().toString());
+                    //etTelefonoPaciente.setText(paciente.getTelefono());
+                    paciente.setTelefono(etTelefonoPaciente.getText().toString());
+                    Log.d("paciente", "paciente actualizado " + paciente);
+
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Paciente> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("Error request", t.toString());
+            }
+        });
+         */
+    }
+/*
     private void updateProfile() {
         String dni_paciente = etDni.getText().toString().trim();
         String nombre = etNombre.getText().toString().trim();
@@ -130,7 +310,7 @@ public class ProfileActivity extends AppCompatActivity {
         String telefono = etTelefono.getText().toString().trim();
         String clave = etClave.getText().toString().trim();
 
-        PacienteRequest pacienteRequest = new PacienteRequest(dni_paciente, nombre, apellido, email, telefono, clave,userId);
+        PacienteRequest pacienteRequest = new PacienteRequest(dni_paciente, nombre, apellido, email, telefono, clave, userId);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLConection.URLPrivada)
@@ -156,6 +336,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+ */
 
     private void deleteProfile() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -185,6 +366,38 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void abrirCamara() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //if(intent.resolveActivity(getPackageManager()) != null) {
+        startActivityForResult(intent, 1);
+        //}
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imgBitmap = (Bitmap) extras.get("data");
+
+            imgPerfilPaciente.setImageBitmap(imgBitmap);
+
+            // Convierte el Bitmap a Base64
+            String base64Image = bitmapToBase64(imgBitmap);
+            // Crea el cuerpo de la solicitud
+            RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), base64Image);
+            pacienteNuevo.setFoto(requestBody);
+            Log.d("nueva foto",pacienteNuevo.getFoto().toString());
+        }
+    }
+
+    private String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
 }
 
 

@@ -1,40 +1,45 @@
 package com.example.salus.entidad;
+
+import com.example.salus.enums.EEstadoTurno;
+
 public class Pago {
-    private int id_pago;
-    private int monto;
+    private Long id;
+    private double monto;
     private String fecha;
     private String hora;
-    private String estado;
-    private int id_turno;
+    private EEstadoTurno estado;
+    private boolean is_active;
+    private Long id_turno;
 
     // Constructor vacío
     public Pago() {
     }
 
     // Constructor con parámetros
-    public Pago(int id_pago, int monto, String fecha, String hora, String estado, int id_turno) {
-        this.id_pago = id_pago;
+    public Pago(Long id, double monto, String fecha, String hora, EEstadoTurno estado, boolean is_active, Long id_turno) {
+        this.id = id;
         this.monto = monto;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
+        this.is_active = is_active;
         this.id_turno = id_turno;
     }
 
     // Getters y Setters
-    public int getId_pago() {
-        return id_pago;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_pago(int id_pago) {
-        this.id_pago = id_pago;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public int getMonto() {
+    public double getMonto() {
         return monto;
     }
 
-    public void setMonto(int monto) {
+    public void setMonto(double monto) {
         this.monto = monto;
     }
 
@@ -54,19 +59,40 @@ public class Pago {
         this.hora = hora;
     }
 
-    public String getEstado() {
+    public EEstadoTurno getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EEstadoTurno estado) {
         this.estado = estado;
     }
 
-    public int getId_turno() {
+    public boolean isIs_active() {
+        return is_active;
+    }
+
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
+    }
+
+    public Long getId_turno() {
         return id_turno;
     }
 
-    public void setId_turno(int id_turno) {
+    public void setId_turno(Long id_turno) {
         this.id_turno = id_turno;
+    }
+
+    @Override
+    public String toString() {
+        return "Pago{" +
+                "id=" + id +
+                ", monto=" + monto +
+                ", fecha='" + fecha + '\'' +
+                ", hora='" + hora + '\'' +
+                ", estado=" + estado +
+                ", is_active=" + is_active +
+                ", id_turno=" + id_turno +
+                '}';
     }
 }

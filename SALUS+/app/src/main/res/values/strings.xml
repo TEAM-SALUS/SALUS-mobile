@@ -38,4 +38,7 @@
     <string name="ir_home">Ir Home</string>
     <string name="doctor_photo">Foto del doctor</string>
     <string name="ver_turnos_disponibles">Ver turnos disponibles</string>
+    <string name="medicos">Medicos</string>
+    <string name="ver_medico">Ver medico</string>
+    <string name="especialidad">Especialidad</string>
 </resources>

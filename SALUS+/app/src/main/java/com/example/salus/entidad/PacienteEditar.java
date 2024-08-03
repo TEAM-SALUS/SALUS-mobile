@@ -1,24 +1,26 @@
 package com.example.salus.entidad;
-import java.io.Serializable;
-import java.util.List;
-public class Medico implements Serializable {
+
+import okhttp3.RequestBody;
+
+public class PacienteEditar {
     private Long id;
-    private String matricula;
+    private String dni_paciente;
     private String nombre;
     private String apellido;
     private String email;
     private String clave;
     private String telefono;
-    private String foto;
-    private boolean is_active;
-    private Long id_especialidad;
-    private Long id_horario;
-    private int medicoUser;
-    public Medico() {
+    private RequestBody foto;
+    private String is_active;
+    private Long id_obra_social;
+    private Integer pacienteUser;
+
+    public PacienteEditar() {
     }
-    public Medico(Long id, String matricula, String nombre, String apellido, String email, String clave, String telefono, String foto, boolean is_active, Long id_especialidad, Long id_horario, int medicoUser) {
+
+    public PacienteEditar(Long id, String dni_paciente, String nombre, String apellido, String email, String clave, String telefono, RequestBody foto, String is_active, Long id_obra_social, Integer pacienteUser) {
         this.id = id;
-        this.matricula = matricula;
+        this.dni_paciente = dni_paciente;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
@@ -26,11 +28,9 @@ public class Medico implements Serializable {
         this.telefono = telefono;
         this.foto = foto;
         this.is_active = is_active;
-        this.id_especialidad = id_especialidad;
-        this.id_horario = id_horario;
-        this.medicoUser = medicoUser;
+        this.id_obra_social = id_obra_social;
+        this.pacienteUser = pacienteUser;
     }
-    // Getters y setters
 
     public Long getId() {
         return id;
@@ -40,12 +40,12 @@ public class Medico implements Serializable {
         this.id = id;
     }
 
-    public String getMatricula() {
-        return matricula;
+    public String getDni_paciente() {
+        return dni_paciente;
     }
 
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
+    public void setDni_paciente(String dni_paciente) {
+        this.dni_paciente = dni_paciente;
     }
 
     public String getNombre() {
@@ -88,61 +88,52 @@ public class Medico implements Serializable {
         this.telefono = telefono;
     }
 
-    public String getFoto() {
+    public RequestBody getFoto() {
         return foto;
     }
 
-    public void setFoto(String foto) {
+    public void setFoto(RequestBody foto) {
         this.foto = foto;
     }
 
-    public boolean isIs_active() {
+    public String getIs_active() {
         return is_active;
     }
 
-    public void setIs_active(boolean is_active) {
+    public void setIs_active(String is_active) {
         this.is_active = is_active;
     }
 
-    public Long getId_especialidad() {
-        return id_especialidad;
+    public Long getId_obra_social() {
+        return id_obra_social;
     }
 
-    public void setId_especialidad(Long id_especialidad) {
-        this.id_especialidad = id_especialidad;
+    public void setId_obra_social(Long id_obra_social) {
+        this.id_obra_social = id_obra_social;
     }
 
-    public Long getId_horario() {
-        return id_horario;
+    public Integer getPacienteUser() {
+        return pacienteUser;
     }
 
-    public void setId_horario(Long id_horario) {
-        this.id_horario = id_horario;
-    }
-
-    public int getMedicoUser() {
-        return medicoUser;
-    }
-
-    public void setMedicoUser(int medicoUser) {
-        this.medicoUser = medicoUser;
+    public void setPacienteUser(Integer pacienteUser) {
+        this.pacienteUser = pacienteUser;
     }
 
     @Override
     public String toString() {
-        return "Medico{" +
+        return "PacienteEditar{" +
                 "id=" + id +
-                ", matricula='" + matricula + '\'' +
+                ", dni_paciente='" + dni_paciente + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", email='" + email + '\'' +
                 ", clave='" + clave + '\'' +
                 ", telefono='" + telefono + '\'' +
                 ", foto='" + foto + '\'' +
-                ", is_active=" + is_active +
-                ", id_especialidad=" + id_especialidad +
-                ", id_horario=" + id_horario +
-                ", medicoUser=" + medicoUser +
+                ", is_active='" + is_active + '\'' +
+                ", id_obra_social='" + id_obra_social + '\'' +
+                ", pacienteUser=" + pacienteUser +
                 '}';
     }
 }

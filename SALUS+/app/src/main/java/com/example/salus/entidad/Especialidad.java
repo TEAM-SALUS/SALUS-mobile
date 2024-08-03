@@ -1,15 +1,36 @@
 package com.example.salus.entidad;
 
 public class Especialidad {
+    private Long id;
     private String nombre;
     private double precio;
     private String duracion;
-    private String foto;
     private String descripcion;
+    private String foto;
+    private boolean is_active;
 
-    private Integer id;
+    public Especialidad() {
+    }
+
+    public Especialidad(Long id, String nombre, double precio, String duracion, String descripcion, String foto, boolean is_active) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.duracion = duracion;
+        this.descripcion = descripcion;
+        this.foto = foto;
+        this.is_active = is_active;
+    }
 
     // Getters y setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -34,14 +55,6 @@ public class Especialidad {
         this.duracion = duracion;
     }
 
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
@@ -50,11 +63,32 @@ public class Especialidad {
         this.descripcion = descripcion;
     }
 
-    public Integer getId() {
-        return id;
+    public String getFoto() {
+        return foto;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public boolean isIs_active() {
+        return is_active;
+    }
+
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
+    }
+
+    @Override
+    public String toString() {
+        return "Especialidad{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", precio=" + precio +
+                ", duracion='" + duracion + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", foto='" + foto + '\'' +
+                ", is_active=" + is_active +
+                '}';
     }
 }

@@ -2,6 +2,7 @@ package com.example.salus.adaptador;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.salus.ApiDjango;
 import com.example.salus.R;
 import com.example.salus.entidad.Turno;
+import com.example.salus.io.SalusBDApiAdapter;
+import com.example.salus.login;
 
 import java.util.List;
 
@@ -26,12 +29,10 @@ import retrofit2.Response;
 public class TurnosAdaptador extends RecyclerView.Adapter<TurnosAdaptador.ViewHolder> {
     private List<Turno> turnoLista;
     private Context context;
-    private ApiDjango api;
 
-    public TurnosAdaptador(List<Turno> turnoLista, Context context, ApiDjango api) {
+    public TurnosAdaptador(List<Turno> turnoLista, Context context) {
         this.turnoLista = turnoLista;
         this.context = context;
-        this.api = api;
     }
 
     @NonNull
@@ -73,13 +74,16 @@ public class TurnosAdaptador extends RecyclerView.Adapter<TurnosAdaptador.ViewHo
         });
     }
 
-    private void eliminarTurno(int id, int position) {
-        Call<Void> callEliminar = api.eliminarTurno(id);
+    private void eliminarTurno(Long id, int position) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(login.SHARED_PREFS, context.MODE_PRIVATE);
+        String token = sharedPreferences.getString(login.TOKEN_KEY, null);
+        Call<Void> callEliminar = SalusBDApiAdapter.getApiService().eliminarTurnoId("Token " + token,id);
         callEliminar.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     turnoLista.remove(position);
+                    notifyItemRemoved(position);
                     notifyItemRemoved(position);
                     Toast.makeText(context, "Turno eliminado", Toast.LENGTH_SHORT).show();
                 } else {

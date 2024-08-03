@@ -78,7 +78,7 @@ public class ServicioXProfesionalDaoImpl implements IServicioXProfesionalDao {
             */
             ContentValues nuevoRegistro = new ContentValues();
             nuevoRegistro.put("CodServicio_SerXPro",servicioXProfesional.getServicio_SXP().getCodServicio());
-            nuevoRegistro.put("DNI_SerXPro",servicioXProfesional.getUsuario_SXP().getDni());
+            //nuevoRegistro.put("DNI_SerXPro",servicioXProfesional.getUsuario_SXP().getDni());
             cn.insert("ServicioXProfesional",null,nuevoRegistro);
         } catch (Exception e) {
             e.printStackTrace();

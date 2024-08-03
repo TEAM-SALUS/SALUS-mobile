@@ -1,4 +1,4 @@
-package com.example.salus.dao;
+package com.example.salus.io;
 
 import com.example.salus.entidad.RegistroDeConsulta;
 

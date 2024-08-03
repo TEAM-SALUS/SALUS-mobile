@@ -12,10 +12,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.salus.dao.URLConection;
+import com.example.salus.io.URLConection;
 import com.example.salus.entidad.NuevoTurno;
 import com.example.salus.entidad.PacienteResponse;
-import com.example.salus.entidad.TurnoDisponible;
 
 import java.util.List;
 

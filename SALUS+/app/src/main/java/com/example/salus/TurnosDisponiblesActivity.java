@@ -1,8 +1,6 @@
 package com.example.salus;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.salus.adaptador.TurnosDisponiblesAdapter;
-import com.example.salus.dao.URLConection;
+import com.example.salus.io.URLConection;
 import com.example.salus.entidad.TurnoDisponible;
 
 import java.util.ArrayList;

@@ -36,7 +36,7 @@ public class TurnoDaoImpl implements ITurnoDao {
                 serXProNI = new ServicioXProfesionalNegImpl();
                 do {
                     Turno tur = new Turno();
-                    tur.setCodTurno(c.getInt(0));
+                    /*tur.setCodTurno(c.getInt(0));
                     tur.setFecha(LocalDateTime.parse(c.getString(1),DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
                     tur.setFechaAsignacion(LocalDateTime.parse(c.getString(2),DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
                     tur.setEstado(c.getString(3).equals("1"));
@@ -44,7 +44,7 @@ public class TurnoDaoImpl implements ITurnoDao {
                     tur.setServicioXProfesional(
                             serXProNI.listarUno(c.getInt(5), c.getInt(6),
                             context)
-                    );
+                    );*/
                     lista.add(tur);
                 } while (c.moveToNext());
             }
@@ -68,7 +68,7 @@ public class TurnoDaoImpl implements ITurnoDao {
                 usuNI = new UsuarioNegImpl();
                 serXProNI = new ServicioXProfesionalNegImpl();
                 do {
-                    tur.setCodTurno(c.getInt(0));
+                    /*tur.setCodTurno(c.getInt(0));
                     tur.setFecha(LocalDateTime.parse(c.getString(1),DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
                     tur.setFechaAsignacion(LocalDateTime.parse(c.getString(2),DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
                     tur.setEstado(c.getString(3).equals("1"));
@@ -76,7 +76,7 @@ public class TurnoDaoImpl implements ITurnoDao {
                     tur.setServicioXProfesional(
                             serXProNI.listarUno(c.getInt(5), c.getInt(6),
                                     context)
-                    );
+                    );*/
                 } while(c.moveToNext());
             }
         } catch (Exception e) {
@@ -99,12 +99,12 @@ public class TurnoDaoImpl implements ITurnoDao {
             */
             ContentValues nuevoRegistro = new ContentValues();
             //nuevoRegistro.put("CodTurno_Tur",turno.getCodTurno());
-            nuevoRegistro.put("Fecha_Tur",turno.getFechaH().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")).toString());
-            nuevoRegistro.put("FechaAsignacion_Tur",turno.getFechaAsignacion().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")).toString());
-            nuevoRegistro.put("Estado",turno.getEstado());
-            nuevoRegistro.put("DNI_CliTur",turno.getUsuarioCli().getDni());
-            nuevoRegistro.put("CodServicio_Tur",turno.getServicioXProfesional().getServicio_SXP().getCodServicio());
-            nuevoRegistro.put("DNI_ProTur",turno.getServicioXProfesional().getUsuario_SXP().getDni());
+            //nuevoRegistro.put("Fecha_Tur",turno.getFechaH().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")).toString());
+            //nuevoRegistro.put("FechaAsignacion_Tur",turno.getFechaAsignacion().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")).toString());
+            //nuevoRegistro.put("Estado",turno.getEstado());
+            //nuevoRegistro.put("DNI_CliTur",turno.getUsuarioCli().getDni());
+            //nuevoRegistro.put("CodServicio_Tur",turno.getServicioXProfesional().getServicio_SXP().getCodServicio());
+           // nuevoRegistro.put("DNI_ProTur",turno.getServicioXProfesional().getUsuario_SXP().getDni());
             cn.insert("Turno",null,nuevoRegistro);
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,14 +126,14 @@ public class TurnoDaoImpl implements ITurnoDao {
                     +"' WHERE CodTurno_Tur = '" + turno.getCodTurno() + "');");
             */
             ContentValues nuevoRegistro = new ContentValues();
-            nuevoRegistro.put("Fecha_Tur",turno.getFechaH().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")).toString());
-            nuevoRegistro.put("FechaAsignacion_Tur",turno.getFechaAsignacion().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")).toString());
-            nuevoRegistro.put("Estado",turno.getEstado());
-            nuevoRegistro.put("DNI_CliTur",turno.getUsuarioCli().getDni());
-            nuevoRegistro.put("CodServicio_Tur",turno.getServicioXProfesional().getServicio_SXP().getCodServicio());
-            nuevoRegistro.put("DNI_ProTur",turno.getServicioXProfesional().getUsuario_SXP().getDni());
-            cn.update("Turno",nuevoRegistro,"CodTurno_Tur = " +
-                    Integer.toString(turno.getCodTurno()),null);
+            //nuevoRegistro.put("Fecha_Tur",turno.getFechaH().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")).toString());
+            //nuevoRegistro.put("FechaAsignacion_Tur",turno.getFechaAsignacion().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")).toString());
+            //nuevoRegistro.put("Estado",turno.getEstado());
+            //nuevoRegistro.put("DNI_CliTur",turno.getUsuarioCli().getDni());
+            //nuevoRegistro.put("CodServicio_Tur",turno.getServicioXProfesional().getServicio_SXP().getCodServicio());
+            //nuevoRegistro.put("DNI_ProTur",turno.getServicioXProfesional().getUsuario_SXP().getDni());
+            /*cn.update("Turno",nuevoRegistro,"CodTurno_Tur = " +
+                    Integer.toString(turno.getCodTurno()),null);*/
         } catch (Exception e) {
             e.printStackTrace();
             update = false;

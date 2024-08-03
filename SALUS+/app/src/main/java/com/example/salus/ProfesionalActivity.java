@@ -1,7 +1,5 @@
 package com.example.salus;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,15 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.salus.adaptador.MedicoAdapter;
-import com.example.salus.dao.URLConection;
+import com.example.salus.io.URLConection;
 import com.example.salus.entidad.HorarioDeAtencion;
 import com.example.salus.entidad.Medico;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,14 +56,14 @@ public class ProfesionalActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Medico>>() {
             @Override
             public void onResponse(Call<List<Medico>> call, Response<List<Medico>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+               /* if (response.isSuccessful() && response.body() != null) {
                     medicos = response.body();
                     for (Medico medico : medicos) {
                         obtenerHorariosDeAtencion(medico.getId());
                     }
                 } else {
                     Toast.makeText(ProfesionalActivity.this, "Error al obtener médicos", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
 
             @Override
@@ -86,7 +82,7 @@ public class ProfesionalActivity extends AppCompatActivity {
         ApiDjango api = retrofit.create(ApiDjango.class);
         Call<List<HorarioDeAtencion>> call = api.getHorariosAtencionPorMedico(medicoId);
         Log.d("ProfesionalActivity", "ID del médico: " + medicoId);
-        call.enqueue(new Callback<List<HorarioDeAtencion>>() {
+       /* call.enqueue(new Callback<List<HorarioDeAtencion>>() {
             @Override
             public void onResponse(Call<List<HorarioDeAtencion>> call, Response<List<HorarioDeAtencion>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -109,13 +105,13 @@ public class ProfesionalActivity extends AppCompatActivity {
             public void onFailure(Call<List<HorarioDeAtencion>> call, Throwable t) {
                 Toast.makeText(ProfesionalActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
     private boolean todosLosMedicosTienenHorarios() {
         for (Medico medico : medicos) {
-            if (medico.getHorariosDeAtencion() == null) {
+            /*if (medico.getHorariosDeAtencion() == null) {
                 return false;
-            }
+            }*/
         }
         return true;
     }

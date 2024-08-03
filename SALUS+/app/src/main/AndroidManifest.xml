@@ -5,10 +5,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- Características del dispositivo -->
+    <!-- Características del dispositivo -->
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -21,7 +21,31 @@
         android:theme="@style/Theme.Salus"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <!-- Actividades de la aplicación -->
+
+
+        <activity
+            android:name=".PagoActivity"
+            android:parentActivityName=".EspecialidadesActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".EspecialidadesActivity" />
+        </activity>
+        <activity
+            android:name=".MedicoActivity"
+            android:parentActivityName=".MedicosActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MedicosActivity" />
+        </activity>
+        <activity
+            android:name=".MedicosActivity"
+            android:parentActivityName=".home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".home" />
+        </activity>
         <activity
             android:name=".ConsultaActivity"
             android:parentActivityName=".ConsultasActivity">
@@ -39,11 +63,20 @@
         <activity
             android:name=".ContactoMensajeEnviado"
             android:exported="false" />
-        <activity
+        <!-- <activity
             android:name=".ProfileActivity"
             android:exported="false"
-            android:label="Registro"
+            android:label="Perfil"
             android:parentActivityName=".home" />
+        -->
+        <activity
+            android:name=".ProfileActivity"
+            android:label="Perfil"
+            android:parentActivityName=".home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".home" />
+        </activity>
         <activity
             android:name=".Contacto"
             android:parentActivityName=".home">
@@ -59,6 +92,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".EspecialidadActivity"
+            android:parentActivityName=".EspecialidadesActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".EspecialidadesActivity" />
         </activity>
         <activity
             android:name=".EspecialidadesActivity"
@@ -124,7 +164,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".home" />
         </activity>
-
         <activity
             android:name=".EditarTurnoActivity"
             android:parentActivityName=".MisTurnos">
@@ -167,6 +206,5 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-
 
 </manifest>

@@ -1,8 +1,6 @@
 package com.example.salus;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,13 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.salus.adaptador.ConsultasAdaptador;
-import com.example.salus.dao.ApiRegistroDeConsulta;
-import com.example.salus.dao.URLConection;
+import com.example.salus.io.ApiRegistroDeConsulta;
+import com.example.salus.io.URLConection;
 import com.example.salus.entidad.RegistroDeConsulta;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;

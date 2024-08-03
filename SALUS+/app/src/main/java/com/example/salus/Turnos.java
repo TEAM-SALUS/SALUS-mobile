@@ -2,6 +2,7 @@ package com.example.salus;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.salus.adaptador.TurnosAdaptador;
+import com.example.salus.entidad.Medico;
+import com.example.salus.entidad.Paciente;
+import com.example.salus.entidad.Turno;
+import com.example.salus.io.SalusBDApiAdapter;
+import com.example.salus.io.URLConection;
+
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -25,21 +34,22 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Turnos extends AppCompatActivity {
-    private RecyclerView recyclerTurno;
-    //private TurnosAdaptador turnosAdaptador;
-    //public EspecialidadesAdapter especialidadesAdapter;
     private Context context;
+    private RecyclerView recyclerTurno;
+    private TurnosAdaptador turnosAdaptador;
+    //public EspecialidadesAdapter especialidadesAdapter;
     private ApiDjango api;
-    ImageButton turno_wpp;
+    private ImageButton turno_wpp;
+    private String token;
+    private Integer id;
+    private Paciente paciente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_turnos);
-        context = getApplicationContext();
-        recyclerTurno = findViewById(R.id.recyclerTurno);
-        recyclerTurno.setLayoutManager(new LinearLayoutManager(context));
-        turno_wpp = findViewById(R.id.turno_wpp);
+
+        this.iniciar();
 
         turno_wpp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +126,7 @@ public class Turnos extends AppCompatActivity {
             }
         });*/
     }
+
     /*
     public void eliminarTurno(int id, int position) {
         Call<Void> callEliminar = api.eliminarTurno(id);
@@ -136,4 +147,68 @@ public class Turnos extends AppCompatActivity {
             }
         });
     }*/
+    private void iniciar() {
+        this.context = getApplicationContext();
+        this.recyclerTurno = findViewById(R.id.recyclerTurno);
+        this.recyclerTurno.setLayoutManager(new LinearLayoutManager(context));
+        this.turno_wpp = findViewById(R.id.turno_wpp);
+
+        Log.d("Iniciar", "Entro inciar 1");
+
+        SharedPreferences sharedPreferences = getSharedPreferences(login.SHARED_PREFS, MODE_PRIVATE);
+        this.token = sharedPreferences.getString(login.TOKEN_KEY, null);
+        this.id = sharedPreferences.getInt(login.USER_ID_KEY, 0);
+
+        Log.d("Iniciar", "Entro inciar 1.token" + this.token);
+        Log.d("Iniciar", "Entro inciar 1.id" + this.id);
+
+        this.obtenerPacientePorUsuario();
+
+    }
+
+    /**
+     * @apiNote busca paciente por usuario
+     * @see <a href="https://youtu.be/F8YDPCmYAJ0?si=04TORX6ep1S7PI2w>Ir a YouTube tuto</a>
+     */
+    private void obtenerPacientePorUsuario() {
+        Call<Paciente> call = SalusBDApiAdapter.getApiService().getPacienteUsuarioId("Token " + this.token, this.id);
+        call.enqueue(new Callback<Paciente>() {
+            @Override
+            public void onResponse(Call<Paciente> call, Response<Paciente> response) {
+                Log.d("Iniciar", "Entro inciar 3");
+                paciente = response.body();
+                Log.d("onResponse paciente", "paciente recuperada " + paciente.toString());
+                obtenerTurnosPorPaciente();            }
+
+            @Override
+            public void onFailure(Call<Paciente> call, Throwable t) {
+                Log.d("onResponse paciente", "ponResponse paciente error");
+                Toast.makeText(context, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void obtenerTurnosPorPaciente() {
+        Call<List<Turno>> call = SalusBDApiAdapter.getApiService().getTurnosPacienteLista("Token " + this.token, this.paciente.getId());
+        call.enqueue(new Callback<List<Turno>>() {
+            @Override
+            public void onResponse(Call<List<Turno>> call, Response<List<Turno>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("Iniciar", "Entro inciar 2");
+                    List<Turno> turnosLista = response.body();
+                    Log.d("onResponse turnosLista: ", "Size turnosLista " + turnosLista.size());
+                    turnosAdaptador = new TurnosAdaptador(turnosLista, context);
+                    recyclerTurno.setAdapter(turnosAdaptador);
+                } else {
+                    Toast.makeText(context, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Turno>> call, Throwable t) {
+                Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("Error request", t.toString());
+            }
+        });
+    }
 }

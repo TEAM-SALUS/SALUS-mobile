@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.salus.ConsultaActivity;
+import com.example.salus.EspecialidadActivity;
 import com.example.salus.EspecialidadesActivity;
 import com.example.salus.ProfesionalActivity;
 import com.example.salus.R;
 import com.example.salus.entidad.Especialidad;
+import com.example.salus.io.URLConection;
 
 import java.util.List;
 
@@ -55,13 +57,14 @@ public class EspecialidadesAdapter extends RecyclerView.Adapter<EspecialidadesAd
 
         // Cargar la imagen con Glide
         Glide.with(holder.itemView.getContext())
-                .load(especialidad.getFoto())
+                .load(URLConection.URLPrivadaIMG + especialidad.getFoto())
                 .into(holder.ivFoto);
 
         holder.btnProfesionales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ProfesionalActivity.class);
+                //Intent intent = new Intent(context, ProfesionalActivity.class);
+                Intent intent = new Intent(context, EspecialidadActivity.class);
                 intent.putExtra("especialidadId", especialidad.getId()); // Verifica que especialidad.getId() retorne el ID correcto
                 context.startActivity(intent);
             }

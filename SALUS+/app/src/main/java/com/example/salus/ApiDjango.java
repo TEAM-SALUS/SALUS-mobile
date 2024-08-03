@@ -7,6 +7,7 @@ import com.example.salus.entidad.Medico;
 import com.example.salus.entidad.Medicos;
 import com.example.salus.entidad.MiTurno;
 import com.example.salus.entidad.NuevoTurno;
+import com.example.salus.entidad.Paciente;
 import com.example.salus.entidad.Turno;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import com.example.salus.entidad.RegisterResponse;
 import com.example.salus.entidad.TurnoDisponible;
 import com.example.salus.entidad.UserProfile;
 import com.example.salus.entidad.UserProfileResponse;
+import com.example.salus.entidad.Usuario;
 import com.example.salus.entidad.UsuarioResponse;
 
 import retrofit2.Call;
@@ -64,12 +66,14 @@ public interface ApiDjango {
 
     //____ REGISTRO ____
     @POST("registro")
-    Call<RegisterResponse> registerUser(@Body RegisterRequest registerRequest);
+    //Call<RegisterResponse> registerUser(@Body RegisterRequest registerRequest);
+    Call<RegisterResponse> registerUser(@Body Usuario usuario);
     @GET("/api/v1/profile")
     Call<UserProfileResponse> getUserProfile(@Header("Authorization") String token);
 
     @POST("paciente-registro")
-    Call<UsuarioResponse> registerPaciente(@Header("Authorization") String token, @Body PacienteRequest pacienteRequest);
+    //Call<UsuarioResponse> registerPaciente(@Header("Authorization") String token, @Body PacienteRequest pacienteRequest);
+    Call<UsuarioResponse> registerPaciente(@Header("Authorization") String token, @Body Paciente paciente);
     //____ PERFIL ____
     @GET("/api/v1/profile")
     Call<UserProfile> getProfile(@Header("Authorization") String token);

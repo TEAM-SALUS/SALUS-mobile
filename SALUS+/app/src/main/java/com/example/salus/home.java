@@ -38,7 +38,8 @@ public class home extends AppCompatActivity
     private Button perfil;
     ImageButton wpp;
 
-    private Button consultas;
+    //private Button consultas;
+    private Button btnIrMedicos;
     private String token;
     private int id;
 
@@ -60,7 +61,8 @@ public class home extends AppCompatActivity
         log = findViewById(R.id.button5);
         perfil = findViewById(R.id.button6);
         wpp = findViewById(R.id.wpp);
-        consultas = findViewById(R.id.HomeActivity_btnIrConsultas);
+        //consultas = findViewById(R.id.HomeActivity_btnIrConsultas);
+        btnIrMedicos = findViewById(R.id.HomeActivity_btnIrMedicos);
         btn_link = findViewById(R.id.btn_link);
 
         wpp.setOnClickListener(new View.OnClickListener() {
@@ -94,10 +96,13 @@ public class home extends AppCompatActivity
 
 
         // ---- CONSULTAS ----
-        consultas.setOnClickListener(new View.OnClickListener() {
+        // ---- MEDICOS ----
+        //consultas.setOnClickListener(new View.OnClickListener() {
+        btnIrMedicos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(home.this,ConsultasActivity.class);
+                //Intent i = new Intent(home.this,ConsultasActivity.class);
+                Intent i = new Intent(home.this,MedicosActivity.class);
                 startActivity(i);
             }
         });
@@ -108,7 +113,8 @@ public class home extends AppCompatActivity
         turnos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent ( home.this, MisTurnos.class);
+                //Intent i = new Intent ( home.this, MisTurnos.class);
+                Intent i = new Intent ( home.this, Turnos.class);
                 //i.putExtra("dniCliente",(int) extras.get("dniCliente"));
                 startActivity(i);
             }

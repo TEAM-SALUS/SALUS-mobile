@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,13 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 //import com.example.salus.entidad.Pago;
 
-import com.example.salus.dao.URLConection;
-import com.example.salus.entidad.Autorizacion;
+import com.example.salus.io.URLConection;
 import com.example.salus.entidad.Turno;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.OkHttpClient;

@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.salus.dao.URLConection;
+import com.example.salus.io.URLConection;
 import com.example.salus.entidad.Autorizacion;
 import com.example.salus.entidad.UserProfile;
 

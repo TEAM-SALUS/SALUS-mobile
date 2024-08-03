@@ -58,7 +58,7 @@ public class SplashActivity extends AppCompatActivity {
 
         init();
         initVideo(savedInstanceState);
-        cargarBase();
+        //cargarBase();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -104,9 +104,9 @@ public class SplashActivity extends AppCompatActivity {
     private void cargarUsuario() {
         List<Usuario> lista = (ArrayList<Usuario>)usuNI.listarTodos(context);
         if(lista.size() == 0) {
-            usuNI.insertar(new Usuario(11111111, "Nombre Uno", "Apellido Uno", "Direccion 1", "Ciudad 1", "Telefono 1","Email 1","Usuario 1","Clave 1","Descripcion 1",true,conNI.listarUno(1, context)), context);
-            usuNI.insertar(new Usuario(22222222, "Nombre Dos", "Apellido Dos", "Direccion 2", "Ciudad 2", "Telefono 2","Email 2", "Usuario 2", "Clave 2","Descripcion 2",true,conNI.listarUno(2, context)), context);
-            usuNI.insertar(new Usuario(0, "Nombre Admin", "Apellido Admin", "Direccion Admin", "Ciudad Admin", "Telefono Admin","Email admin","Usuario admin", "Clave 3","Descripcion 3",true,conNI.listarUno(3, context)), context);
+            //usuNI.insertar(new Usuario(11111111, "Nombre Uno", "Apellido Uno", "Direccion 1", "Ciudad 1", "Telefono 1","Email 1","Usuario 1","Clave 1","Descripcion 1",true,conNI.listarUno(1, context)), context);
+           // usuNI.insertar(new Usuario(22222222, "Nombre Dos", "Apellido Dos", "Direccion 2", "Ciudad 2", "Telefono 2","Email 2", "Usuario 2", "Clave 2","Descripcion 2",true,conNI.listarUno(2, context)), context);
+            //usuNI.insertar(new Usuario(0, "Nombre Admin", "Apellido Admin", "Direccion Admin", "Ciudad Admin", "Telefono Admin","Email admin","Usuario admin", "Clave 3","Descripcion 3",true,conNI.listarUno(3, context)), context);
         }
     }
     public void cargarServicioXProfesional() {
@@ -121,9 +121,9 @@ public class SplashActivity extends AppCompatActivity {
     public void caragrTurno() {
         List<Turno> lista = (ArrayList<Turno>)turNI.listarTodos(context);
         if(lista.size() == 0) {
-            turNI.insertar(new Turno(1, LocalDateTime.now(),LocalDateTime.of(2023,11,28,15,30,30), true, usuNI.listarUno(11111111,context), serXProNI.listarUno(1,22222222,context)), context);
-            turNI.insertar(new Turno(2,LocalDateTime.now(),LocalDateTime.of(2024,11,28,15,30,30), true, usuNI.listarUno(11111111,context), serXProNI.listarUno(2,22222222,context)), context);
-            turNI.insertar(new Turno(3,LocalDateTime.now(),LocalDateTime.of(2025,11,28,15,30,30), true, usuNI.listarUno(11111111,context), serXProNI.listarUno(3,22222222,context)), context);
+           // turNI.insertar(new Turno(1, LocalDateTime.now(),LocalDateTime.of(2023,11,28,15,30,30), true, usuNI.listarUno(11111111,context), serXProNI.listarUno(1,22222222,context)), context);
+           // turNI.insertar(new Turno(2,LocalDateTime.now(),LocalDateTime.of(2024,11,28,15,30,30), true, usuNI.listarUno(11111111,context), serXProNI.listarUno(2,22222222,context)), context);
+           // turNI.insertar(new Turno(3,LocalDateTime.now(),LocalDateTime.of(2025,11,28,15,30,30), true, usuNI.listarUno(11111111,context), serXProNI.listarUno(3,22222222,context)), context);
         }
     }
     private void initVideo(Bundle savedInstanceState) {
@@ -198,7 +198,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void init() {
-        int tiempo = 20000;
+        //int tiempo = 20000;
+        int tiempo = 2000;
 
         new Handler().postDelayed(new Runnable() {
             @Override

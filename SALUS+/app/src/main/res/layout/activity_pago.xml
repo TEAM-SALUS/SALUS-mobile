@@ -21,9 +21,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Fecha:"
-        android:textSize="18sp"
-        android:layout_marginTop="16dp"/>
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/editTextFecha"
@@ -35,9 +35,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Hora:"
-        android:textSize="18sp"
-        android:layout_marginTop="16dp"/>
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/editTextHora"
@@ -49,36 +49,39 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Estado:"
-        android:textSize="18sp"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:text="Especialidad:"
+        android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/editTextEstado"
+        android:id="@+id/editTextEspecialidad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ingrese el estado"
+        android:hint="Ingrese la especialidad"
         android:inputType="text" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID Turno:"
-        android:textSize="18sp"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:text="Medico:"
+        android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/editTextIdTurno"
+        android:id="@+id/editTextMedico"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ingrese el ID del turno"
-        android:inputType="number" />
+        android:hint="Ingrese el Medico"
+        android:inputType="text" />
 
     <Button
-        android:id="@+id/botonPagar"
-        android:layout_width="match_parent"
+        android:id="@+id/btnPagar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Pagar" />
+        android:backgroundTint="@color/btn_reservarTurno"
+        android:text="Pagar"
+        android:textColor="@color/white"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

@@ -49,7 +49,7 @@ public class MedicoAdapter extends RecyclerView.Adapter<MedicoAdapter.ViewHolder
                 .into(holder.ivFoto);
 
         // Mostrar los horarios de atención
-        if (medico.getHorariosDeAtencion() != null && !medico.getHorariosDeAtencion().isEmpty()) {
+        /*if (medico.getHorariosDeAtencion() != null && !medico.getHorariosDeAtencion().isEmpty()) {
             StringBuilder horariosStr = new StringBuilder();
             for (HorarioDeAtencion horario : medico.getHorariosDeAtencion()) {
                 horariosStr.append(horario.getDiaDeLaSemana())
@@ -62,7 +62,7 @@ public class MedicoAdapter extends RecyclerView.Adapter<MedicoAdapter.ViewHolder
             holder.tvHorario.setText(horariosStr.toString());
         } else {
             holder.tvHorario.setText("Horarios no disponibles");
-        }
+        }*/
 
         // Configurar el botón para ver turnos disponibles
         holder.btnTurnosDisponibles.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class MedicoAdapter extends RecyclerView.Adapter<MedicoAdapter.ViewHolder
 
                 // Guardar el idMedico en SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("idMedico", medico.getId());
+                editor.putInt("idMedico", Integer.parseInt(medico.getId().toString()));
                 editor.apply();
 
                 // Intent para ver turnos disponibles

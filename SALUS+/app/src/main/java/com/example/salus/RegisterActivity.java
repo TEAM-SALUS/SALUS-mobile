@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.salus.dao.URLConection;
-import com.example.salus.entidad.PacienteRequest;
-import com.example.salus.entidad.RegisterRequest;
+import com.example.salus.io.URLConection;
+import com.example.salus.entidad.Paciente;
 import com.example.salus.entidad.RegisterResponse;
 import com.example.salus.entidad.UserProfileResponse;
+import com.example.salus.entidad.Usuario;
 import com.example.salus.entidad.UsuarioResponse;
 
 
@@ -114,8 +114,18 @@ public class RegisterActivity extends AppCompatActivity {
         String username = etUsername.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
+        String nombre = etNombre.getText().toString().trim();
+        String apellido = etApellido.getText().toString().trim();
 
-        RegisterRequest registerRequest = new RegisterRequest(username, email, password);
+        Usuario usuario = new Usuario();
+        usuario.setUsername(username);
+        usuario.setEmail(email);
+        usuario.setPassword(password);
+        usuario.setFirst_name(nombre);
+        usuario.setLast_name(apellido);
+        usuario.setIs_superuser(false);
+        usuario.setIs_staff(false);
+        usuario.setIs_active(true);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLConection.URLPrivada)
@@ -124,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         ApiDjango apiDjango = retrofit.create(ApiDjango.class);
 
-        Call<RegisterResponse> call = apiDjango.registerUser(registerRequest);
+        Call<RegisterResponse> call = apiDjango.registerUser(usuario);
         call.enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
@@ -193,8 +203,18 @@ public class RegisterActivity extends AppCompatActivity {
         String clave = etPassword.getText().toString().trim(); // Usar etPassword como clave
         String telefono = etTelefono.getText().toString().trim();
 
-        PacienteRequest pacienteRequest = new PacienteRequest(dni, nombre, apellido, email, clave, telefono, pacienteUser);
-        Log.d("RegisterActivity", "PacienteRequest: " + new Gson().toJson(pacienteRequest));
+        //PacienteRequest pacienteRequest = new PacienteRequest(dni, nombre, apellido, email, clave, telefono, pacienteUser);
+        Paciente paciente = new Paciente();
+        paciente.setDni_paciente(dni);
+        paciente.setNombre(nombre);
+        paciente.setApellido(apellido);
+        paciente.setEmail(email);
+        paciente.setClave(clave);
+        paciente.setTelefono(telefono);
+        paciente.setId_obra_social(1l);
+        paciente.setPacienteUser(pacienteUser);
+        //Log.d("RegisterActivity", "PacienteRequest: " + new Gson().toJson(pacienteRequest));
+        Log.d("RegisterActivity", "PacienteRequest: " + new Gson().toJson(paciente));
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLConection.URLPrivada)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -202,7 +222,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         ApiDjango apiDjango = retrofit.create(ApiDjango.class);
 
-        Call<UsuarioResponse> call = apiDjango.registerPaciente("Token " + token, pacienteRequest);
+        //Call<UsuarioResponse> call = apiDjango.registerPaciente("Token " + token, pacienteRequest);
+        Call<UsuarioResponse> call = apiDjango.registerPaciente("Token " + token, paciente);
         call.enqueue(new Callback<UsuarioResponse>() {
             @Override
             public void onResponse(Call<UsuarioResponse> call, Response<UsuarioResponse> response) {

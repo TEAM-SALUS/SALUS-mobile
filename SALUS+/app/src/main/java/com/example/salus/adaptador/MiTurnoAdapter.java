@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.salus.ApiDjango;
 import com.example.salus.EditarTurnoActivity;
 import com.example.salus.R;
-import com.example.salus.dao.URLConection;
+import com.example.salus.io.URLConection;
 import com.example.salus.entidad.MiTurno;
 import com.example.salus.login;
 

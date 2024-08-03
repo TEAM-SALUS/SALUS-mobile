@@ -1,119 +1,137 @@
 package com.example.salus.entidad;
 
 public class Usuario {
-    private int dni;
-    private String nombre;
-    private String apellido;
-    private String direccion;
-    private String ciudad;
-    private String telefono;
+    private int id;
+    private String password;
+    private String last_login;
+    private boolean is_superuser;
+    private String username;
+    private String first_name;
+    private String last_name;
     private String email;
-    private String usuario;
-    private String clave;
-    private String descripcion;
-    private boolean estado;
-    private Condicion condicion;
-    public Usuario() {}
+    private boolean is_staff;
+    private boolean is_active;
+    private String date_joined;
 
-    public Usuario(int dni, String nombre, String apellido, String direccion, String ciudad, String telefono, String email, String usuario, String clave, String descripcion, boolean estado, Condicion condicion) {
-        this.dni = dni;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.direccion = direccion;
-        this.ciudad = ciudad;
-        this.telefono = telefono;
+    public Usuario() {
+    }
+
+    public Usuario(int id, String password, String last_login, boolean is_superuser, String username, String first_name, String last_name, String email, boolean is_staff, boolean is_active, String date_joined) {
+        this.id = id;
+        this.password = password;
+        this.last_login = last_login;
+        this.is_superuser = is_superuser;
+        this.username = username;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.email = email;
-        this.usuario = usuario;
-        this.clave = clave;
-        this.descripcion = descripcion;
-        this.estado = estado;
-        this.condicion = condicion;
+        this.is_staff = is_staff;
+        this.is_active = is_active;
+        this.date_joined = date_joined;
     }
 
-    public int getDni() {
-        return dni;
+    public int getId() {
+        return id;
     }
-    public void setDni(int dni) {
-        this.dni = dni;
+
+    public void setId(int id) {
+        this.id = id;
     }
-    public String getNombre() {
-        return nombre;
+
+    public String getPassword() {
+        return password;
     }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+
+    public void setPassword(String password) {
+        this.password = password;
     }
-    public String getApellido() {
-        return apellido;
+
+    public String getLast_login() {
+        return last_login;
     }
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+
+    public void setLast_login(String last_login) {
+        this.last_login = last_login;
     }
-    public String getDireccion() {
-        return direccion;
+
+    public boolean isIs_superuser() {
+        return is_superuser;
     }
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+
+    public void setIs_superuser(boolean is_superuser) {
+        this.is_superuser = is_superuser;
     }
-    public String getCiudad() {
-        return ciudad;
+
+    public String getUsername() {
+        return username;
     }
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+
+    public void setUsername(String username) {
+        this.username = username;
     }
-    public String getTelefono() {
-        return telefono;
+
+    public String getFirst_name() {
+        return first_name;
     }
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getUsuario() {
-        return usuario;
+
+    public boolean isIs_staff() {
+        return is_staff;
     }
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+
+    public void setIs_staff(boolean is_staff) {
+        this.is_staff = is_staff;
     }
-    public String getClave() {
-        return clave;
+
+    public boolean isIs_active() {
+        return is_active;
     }
-    public void setClave(String clave) {
-        this.clave = clave;
+
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
     }
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-    public boolean getEstado() {
-        return estado;
+
+    public String getDate_joined() {
+        return date_joined;
     }
-    public void setEstado(boolean estado) {
-        this.estado = estado;
+
+    public void setDate_joined(String date_joined) {
+        this.date_joined = date_joined;
     }
-    public Condicion getCondicion() {
-        return condicion;
-    }
-    public void setCondicion(Condicion condicion) {
-        this.condicion = condicion;
-    }
+
     @Override
     public String toString() {
-       /*return "Usuario{" +
-                "dni=" + dni +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", direccion='" + direccion + '\'' +
-                ", ciudad='" + ciudad + '\'' +
-                ", telefono='" + telefono + '\'' +
+        return "Usuario{" +
+                "id=" + id +
+                ", password='" + password + '\'' +
+                ", last_login='" + last_login + '\'' +
+                ", is_superuser=" + is_superuser +
+                ", username='" + username + '\'' +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +
-                ", usuario='" + usuario + '\'' +
-                ", clave='" + clave + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", estado=" + estado +
-                ", condicion=" + condicion +
-                '}';*/
-        return nombre + " " + apellido;
+                ", is_staff=" + is_staff +
+                ", is_active=" + is_active +
+                ", date_joined='" + date_joined + '\'' +
+                '}';
     }
 }

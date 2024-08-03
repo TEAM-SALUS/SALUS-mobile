@@ -1,5 +1,7 @@
 package com.example.salus.entidad;
 
+import com.example.salus.enums.EEstadoTurno;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
@@ -7,159 +9,138 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 public class Turno {
-    private int codTurno;
-    private LocalDateTime fechaH;
-    private LocalDateTime fechaAsignacion;
-    private boolean estado;
-    private Usuario usuarioCli;
-    private ServicioXProfesional servicioXProfesional;
+    private Long id;
+    private String fecha;
+    private String horario;
+    private boolean pagado;
+    private EEstadoTurno estado;
+    private String sintomas;
+    private String diagnostico;
+    private String tratamiento;
+    private boolean is_Active;
+    private Long id_medico;
+    private Long id_paciente;
 
     public Turno() {
     }
 
-    public Turno(int codTurno, LocalDateTime fecha, LocalDateTime fechaAsignacion, boolean estado, Usuario usuarioCli, ServicioXProfesional servicioXProfesional) {
-        this.codTurno = codTurno;
-        this.fechaH = fecha;
-        this.fechaAsignacion = fechaAsignacion;
+    public Turno(Long id, String fecha, String horario, boolean pagado, EEstadoTurno estado, String sintomas, String diagnostico, String tratamiento, boolean is_Active, Long id_medico, Long id_paciente) {
+        this.id = id;
+        this.fecha = fecha;
+        this.horario = horario;
+        this.pagado = pagado;
         this.estado = estado;
-        this.usuarioCli = usuarioCli;
-        this.servicioXProfesional = servicioXProfesional;
+        this.sintomas = sintomas;
+        this.diagnostico = diagnostico;
+        this.tratamiento = tratamiento;
+        this.is_Active = is_Active;
+        this.id_medico = id_medico;
+        this.id_paciente = id_paciente;
     }
 
-    public int getCodTurno() {
-        return codTurno;
+    public Long getId() {
+        return id;
     }
 
-    public void setCodTurno(int codTurno) {
-        this.codTurno = codTurno;
+    public void setId(Long id) {
+        this.id = id;
     }
-
-    public LocalDateTime getFechaH() {
-        return fechaH;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
-        this.fechaH = fecha;
-    }
-
-    public LocalDateTime getFechaAsignacion() {
-        return fechaAsignacion;
-    }
-
-    public void setFechaAsignacion(LocalDateTime fechaAsignacion) {
-        this.fechaAsignacion = fechaAsignacion;
-    }
-
-    public boolean getEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
-    public Usuario getUsuarioCli() {
-        return usuarioCli;
-    }
-
-    public void setUsuarioCli(Usuario usuarioCli) {
-        this.usuarioCli = usuarioCli;
-    }
-
-    public ServicioXProfesional getServicioXProfesional() {
-        return servicioXProfesional;
-    }
-
-    public void setServicioXProfesional(ServicioXProfesional servicioXProfesional) {
-        this.servicioXProfesional = servicioXProfesional;
-    }
-
-    @Override
-    public String toString() {
-        return "Turno{" +
-                "codTurno=" + codTurno +
-                ", fecha=" + fechaH +
-                ", fechaAsignacion=" + fechaAsignacion +
-                ", estado=" + estado +
-                ", usuarioCli=" + usuarioCli +
-                ", servicioXProfesional=" + servicioXProfesional +
-                '}';
-    }
-
-
-    // MODELO DE LA BD
-    private String fecha;
-    private String horario;
-    private Boolean pagado;
-    private Integer id_medico;
-    private Integer id;
 
     public String getFecha() {
         return fecha;
     }
 
-    public String setFecha() {
-        return fecha;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     public String getHorario() {
         return horario;
     }
 
-    public String setHorario() {
-        return horario;
+    public void setHorario(String horario) {
+        this.horario = horario;
     }
 
-    public Boolean getPagado() {
+    public boolean isPagado() {
         return pagado;
     }
 
-    public void setPagado(Boolean pagado) {
+    public void setPagado(boolean pagado) {
         this.pagado = pagado;
     }
 
-    public Integer getId_medico() {
+    public EEstadoTurno getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EEstadoTurno estado) {
+        this.estado = estado;
+    }
+
+    public String getSintomas() {
+        return sintomas;
+    }
+
+    public void setSintomas(String sintomas) {
+        this.sintomas = sintomas;
+    }
+
+    public String getDiagnostico() {
+        return diagnostico;
+    }
+
+    public void setDiagnostico(String diagnostico) {
+        this.diagnostico = diagnostico;
+    }
+
+    public String getTratamiento() {
+        return tratamiento;
+    }
+
+    public void setTratamiento(String tratamiento) {
+        this.tratamiento = tratamiento;
+    }
+
+    public boolean isIs_Active() {
+        return is_Active;
+    }
+
+    public void setIs_Active(boolean is_Active) {
+        this.is_Active = is_Active;
+    }
+
+    public Long getId_medico() {
         return id_medico;
     }
 
-    public void setId_medico(Integer id_medico) {
+    public void setId_medico(Long id_medico) {
         this.id_medico = id_medico;
     }
 
-    public Integer getId() {
-        return id;
+    public Long getId_paciente() {
+        return id_paciente;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId_paciente(Long id_paciente) {
+        this.id_paciente = id_paciente;
     }
 
-
-    /*
-    public void Pagar(int monto, String fecha, String hora, String estado, int id_turno) {
-        Pago pago = new Pago(monto, fecha, hora, estado, id_turno);
-
-        Call<Pago> call = ApiDjango.pagar(pago);
-        call.enqueue(new Callback<Pago>() {
-            @Override
-            public void onResponse(Call<Pago> call, Response<Pago> response) {
-                if (response.isSuccessful()) {
-                    Pago pagoResponse = response.body();
-                    // Manejar la respuesta del servidor aquí
-                    Toast.makeText(Turnos.this, "Pago realizado exitosamente", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    Toast.makeText(Turnos.this, "Error en el servidor al realizar el pago", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Pago> call, Throwable t) {
-
-                Toast.makeText(Turnos.this, "Error en la conexión al simular el pago", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-
+    @Override
+    public String toString() {
+        return "Turno{" +
+                "id=" + id +
+                ", fecha='" + fecha + '\'' +
+                ", horario='" + horario + '\'' +
+                ", pagado=" + pagado +
+                ", estado=" + estado +
+                ", sintomas='" + sintomas + '\'' +
+                ", diagnostico='" + diagnostico + '\'' +
+                ", tratamiento='" + tratamiento + '\'' +
+                ", is_Active=" + is_Active +
+                ", id_medico=" + id_medico +
+                ", id_paciente=" + id_paciente +
+                '}';
+    }
 }
 

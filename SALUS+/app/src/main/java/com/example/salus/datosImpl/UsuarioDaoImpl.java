@@ -30,19 +30,19 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                 conNI = new CondicionNegImpl();
                 do {
                     Usuario usuario = new Usuario();
-                    usuario.setDni(c.getInt(0));
-                    usuario.setNombre(c.getString(1));
-                    usuario.setApellido(c.getString(2));
-                    usuario.setDireccion(c.getString(3));
-                    usuario.setCiudad(c.getString(4));
-                    usuario.setTelefono(c.getString(5));
-                    usuario.setEmail(c.getString(6));
-                    usuario.setUsuario(c.getString(7));
-                    usuario.setClave(c.getString(8));
-                    usuario.setDescripcion(c.getString(9));
-                    usuario.setEstado(c.getString(10).equals("1"));
+                    //usuario.setDni(c.getInt(0));
+                    //usuario.setNombre(c.getString(1));
+                    //usuario.setApellido(c.getString(2));
+                    //usuario.setDireccion(c.getString(3));
+                    //usuario.setCiudad(c.getString(4));
+                    //usuario.setTelefono(c.getString(5));
+                    //usuario.setEmail(c.getString(6));
+                    //usuario.setUsuario(c.getString(7));
+                    //usuario.setClave(c.getString(8));
+                    //usuario.setDescripcion(c.getString(9));
+                    //usuario.setEstado(c.getString(10).equals("1"));
                     Log.d("codigo condicion", c.getInt(11)+"");
-                    usuario.setCondicion(conNI.listarUno(c.getInt(11),context));
+                    //usuario.setCondicion(conNI.listarUno(c.getInt(11),context));
                     lista.add(usuario);
                 } while (c.moveToNext());
             }
@@ -66,18 +66,18 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             if(c.moveToFirst()) {
                 conNI = new CondicionNegImpl();
                 do {
-                    usuario.setDni(c.getInt(0));
-                    usuario.setNombre(c.getString(1));
-                    usuario.setApellido(c.getString(2));
-                    usuario.setDireccion(c.getString(3));
-                    usuario.setCiudad(c.getString(4));
-                    usuario.setTelefono(c.getString(5));
-                    usuario.setEmail(c.getString(6));
-                    usuario.setUsuario(c.getString(7));
-                    usuario.setClave(c.getString(8));
-                    usuario.setDescripcion(c.getString(9));
-                    usuario.setEstado(c.getString(10).equals("1"));
-                    usuario.setCondicion(conNI.listarUno(c.getInt(11),context));
+                    //usuario.setDni(c.getInt(0));
+                    //usuario.setNombre(c.getString(1));
+                    //usuario.setApellido(c.getString(2));
+                    //usuario.setDireccion(c.getString(3));
+                    //usuario.setCiudad(c.getString(4));
+                    //usuario.setTelefono(c.getString(5));
+                    //usuario.setEmail(c.getString(6));
+                    //usuario.setUsuario(c.getString(7));
+                    //usuario.setClave(c.getString(8));
+                    ///usuario.setDescripcion(c.getString(9));
+                    //usuario.setEstado(c.getString(10).equals("1"));
+                    //usuario.setCondicion(conNI.listarUno(c.getInt(11),context));
                 } while (c.moveToNext());
             }
         } catch (Exception e) {
@@ -97,18 +97,18 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                     "VALUES ('" + usuario.getNombre() + "');");
             */
             ContentValues nuevoRegistro = new ContentValues();
-            nuevoRegistro.put("DNI_Us",usuario.getDni());
-            nuevoRegistro.put("Nombre_Us",usuario.getNombre());
-            nuevoRegistro.put("Apellido_Us",usuario.getApellido());
-            nuevoRegistro.put("Direccion_Us",usuario.getDireccion());
-            nuevoRegistro.put("Ciudad_Us",usuario.getCiudad());
-            nuevoRegistro.put("Telefono_Us",usuario.getTelefono());
-            nuevoRegistro.put("Email_Us",usuario.getEmail());
-            nuevoRegistro.put("Usuario_Us",usuario.getUsuario());
-            nuevoRegistro.put("Clave_Us",usuario.getClave());
-            nuevoRegistro.put("Descripcion_Us",usuario.getDescripcion());
-            nuevoRegistro.put("Estado",usuario.getEstado());
-            nuevoRegistro.put("CodCondicion_Us",usuario.getCondicion().getCodCondicion());
+            //nuevoRegistro.put("DNI_Us",usuario.getDni());
+            //nuevoRegistro.put("Nombre_Us",usuario.getNombre());
+            //nuevoRegistro.put("Apellido_Us",usuario.getApellido());
+            //nuevoRegistro.put("Direccion_Us",usuario.getDireccion());
+            //nuevoRegistro.put("Ciudad_Us",usuario.getCiudad());
+            //nuevoRegistro.put("Telefono_Us",usuario.getTelefono());
+            //nuevoRegistro.put("Email_Us",usuario.getEmail());
+            //nuevoRegistro.put("Usuario_Us",usuario.getUsuario());
+            //nuevoRegistro.put("Clave_Us",usuario.getClave());
+            //nuevoRegistro.put("Descripcion_Us",usuario.getDescripcion());
+            //nuevoRegistro.put("Estado",usuario.getEstado());
+            //nuevoRegistro.put("CodCondicion_Us",usuario.getCondicion().getCodCondicion());
             cn.insert("Usuario",null,nuevoRegistro);
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,7 +128,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                     +"' WHERE DNI_Us = '" + usuario.getDni() + "');");
             */
             ContentValues nuevoRegistro = new ContentValues();
-            nuevoRegistro.put("Nombre_Us",usuario.getNombre());
+            /*nuevoRegistro.put("Nombre_Us",usuario.getNombre());
             nuevoRegistro.put("Apellido_Us",usuario.getApellido());
             nuevoRegistro.put("Direccion_Us",usuario.getDireccion());
             nuevoRegistro.put("Ciudad_Us",usuario.getCiudad());
@@ -142,7 +142,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             cn.update("Usuario",
                     nuevoRegistro,
                     "DNI_Us = " + Integer.toString(usuario.getDni()),
-                    null);
+                    null);*/
         } catch (Exception e) {
             e.printStackTrace();
             update = false;
@@ -179,7 +179,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             if(c.moveToFirst()) {
 
                 do {
-                    usuario.setDni(c.getInt(0));
+                    /*usuario.setDni(c.getInt(0));
                     usuario.setNombre(c.getString(1));
                     usuario.setApellido(c.getString(2));
                     usuario.setDireccion(c.getString(3));
@@ -190,12 +190,12 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                     usuario.setClave(c.getString(8));
                     usuario.setDescripcion(c.getString(9));
                     usuario.setEstado(c.getString(10).equals("1"));
-                    usuario.setCondicion(conNI.listarUno(c.getInt(11),context));
+                    usuario.setCondicion(conNI.listarUno(c.getInt(11),context));*/
                 } while (c.moveToNext());
             }
             return usuario;
         }else {
-            usuario.setDni(-1);
+            //usuario.setDni(-1);
             return usuario;
         }
     }

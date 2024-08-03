@@ -1,19 +1,17 @@
 package com.example.salus;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.salus.adaptador.ConsultasAdaptador;
-import com.example.salus.dao.ApiRegistroDeConsulta;
-import com.example.salus.dao.URLConection;
+import com.example.salus.io.ApiRegistroDeConsulta;
+import com.example.salus.io.URLConection;
 import com.example.salus.entidad.RegistroDeConsulta;
 
 import java.util.List;
