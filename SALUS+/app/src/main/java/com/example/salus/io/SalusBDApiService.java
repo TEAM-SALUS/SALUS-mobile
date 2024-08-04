@@ -3,6 +3,7 @@ package com.example.salus.io;
 import com.example.salus.entidad.Especialidad;
 import com.example.salus.entidad.HorarioDeAtencion;
 import com.example.salus.entidad.Medico;
+import com.example.salus.entidad.ObraSocial;
 import com.example.salus.entidad.Paciente;
 import com.example.salus.entidad.PacienteEditar;
 import com.example.salus.entidad.Pago;
@@ -64,6 +65,7 @@ public interface SalusBDApiService {
      */
     @GET("paciente-id-usuario/{id}")
     Call<Paciente> getPacienteUsuarioId(@Header("Authorization") String s, @Path("id") Integer id);
+
     @PUT("paciente-id-usuario/{id}")
     Call<Paciente> updatePaciente(@Header("Authorization") String s, @Path("id") Integer id, @Body PacienteEditar paciente);
 
@@ -73,4 +75,12 @@ public interface SalusBDApiService {
     @POST("Pagar/")
     Call<Pago> crearPago(@Header("Authorization") String s, @Body Pago pago);
 
+    /**
+     * OBRAS SOCIALES
+     */
+    @GET("obra-social-id/{id}")
+    Call<ObraSocial> getObraSocialId(@Header("Authorization") String s, @Path("id") Long id);
+
+    @GET("obra-social-lista")
+    Call<List<ObraSocial>> getObrasSocialesLista(@Header("Authorization") String s);
 }

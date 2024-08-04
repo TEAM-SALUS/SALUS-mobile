@@ -4,36 +4,34 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.salus.entidad.ObraSocial;
 import com.example.salus.entidad.Paciente;
 import com.example.salus.entidad.PacienteEditar;
 import com.example.salus.io.SalusBDApiAdapter;
 import com.example.salus.io.URLConection;
-import com.example.salus.entidad.PacienteRequest;
-import com.example.salus.entidad.PacienteResponse;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,6 +45,8 @@ public class ProfileActivity extends AppCompatActivity {
     private String token;
     private int userId;
     private static PacienteEditar pacienteNuevo;
+    private ImageView ivObraSocial;
+    private Spinner spObraSocial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnSavePaciente = findViewById(R.id.btnSavePaciente);
         btnDeletePaciente = findViewById(R.id.btnDeletePaciente);
         imgPerfilPaciente = findViewById(R.id.imgPerfilPaciente);
+        ivObraSocial = findViewById(R.id.ivObraSocialPaciente);
+        spObraSocial = findViewById(R.id.spObraSocialPaciente);
 
         SharedPreferences sharedPreferences = getSharedPreferences(login.SHARED_PREFS, MODE_PRIVATE);
         token = sharedPreferences.getString(login.TOKEN_KEY, null);
@@ -132,6 +134,28 @@ public class ProfileActivity extends AppCompatActivity {
                 abrirCamara();
             }
         });
+
+        spObraSocial.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ObraSocial obraSocial = (ObraSocial) parent.getSelectedItem();
+                pacienteNuevo.setId_obra_social(obraSocial.getId());
+                Glide
+                        .with(ProfileActivity.this)
+                        .load(URLConection.URLPrivadaIMG + obraSocial.getFoto())
+                        //.fitCenter()
+                        //.override(300,300)
+                        .into(ivObraSocial);
+
+                Toast.makeText(ProfileActivity.this, obraSocial.getId() + " - " + obraSocial.getNombre(), Toast.LENGTH_LONG).show();
+                Log.d("HELP GOD", "SELECCIONADO: " + pacienteNuevo.toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public void loadProfile() {
@@ -143,11 +167,11 @@ public class ProfileActivity extends AppCompatActivity {
                     Paciente paciente = response.body();
                     pacienteNuevo = new PacienteEditar();
 
-                    Log.d("HELP GOD: ",paciente.toString());
-                    Log.d("HELP GOD: ",paciente.getId().toString());
+                    Log.d("HELP GOD", paciente.toString());
+                    Log.d("HELP GOD", paciente.getId().toString());
 
                     pacienteNuevo.setId(paciente.getId());
-                    Log.d("HELP GOD: ",pacienteNuevo.getId().toString());
+                    Log.d("HELP GOD: ", pacienteNuevo.getId().toString());
                     pacienteNuevo.setDni_paciente(paciente.getDni_paciente());
                     pacienteNuevo.setNombre(paciente.getNombre());
                     pacienteNuevo.setApellido(paciente.getApellido());
@@ -169,6 +193,8 @@ public class ProfileActivity extends AppCompatActivity {
                     etNombrePaciente.setText(paciente.getNombre());
                     etApellidoPaciente.setText(paciente.getApellido());
                     etTelefonoPaciente.setText(paciente.getTelefono());
+
+                    cargarSpinerObraSocial();
                 } else {
                     Toast.makeText(ProfileActivity.this, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
                 }
@@ -176,6 +202,47 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Paciente> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("Error request", t.toString());
+            }
+        });
+    }
+
+    private void cargarSpinerObraSocial() {
+        Call<List<ObraSocial>> call = SalusBDApiAdapter.getApiService().getObrasSocialesLista("Token " + token);
+        call.enqueue(new Callback<List<ObraSocial>>() {
+            @Override
+            public void onResponse(Call<List<ObraSocial>> call, Response<List<ObraSocial>> response) {
+                if (response.isSuccessful()) {
+                    int cont = 0;
+                    List<ObraSocial> obrasSociales = response.body();
+
+                    Log.d("HELP GOD", obrasSociales.toString());
+
+                    for (ObraSocial obraSocial : obrasSociales) {
+                        if (obraSocial.getId() == pacienteNuevo.getId_obra_social()) {
+                            Log.d("HELP GOD", obraSocial.getId().toString());
+
+                            Glide
+                                    .with(ProfileActivity.this)
+                                    .load(URLConection.URLPrivadaIMG + obraSocial.getFoto())
+                                    //.fitCenter()
+                                    //.override(300,300)
+                                    .into(ivObraSocial);
+                            break;
+                        }
+                        cont += 1;
+                    }
+                    ArrayAdapter<ObraSocial> arrayAdapter = new ArrayAdapter<>(ProfileActivity.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, obrasSociales);
+                    spObraSocial.setAdapter(arrayAdapter);
+                    spObraSocial.setSelection(cont);
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ObraSocial>> call, Throwable t) {
                 Toast.makeText(ProfileActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
                 Log.e("Error request", t.toString());
             }
@@ -242,6 +309,13 @@ public class ProfileActivity extends AppCompatActivity {
         pacienteNuevo.setNombre(etNombrePaciente.getText().toString());
         pacienteNuevo.setApellido(etApellidoPaciente.getText().toString());
         pacienteNuevo.setTelefono(etTelefonoPaciente.getText().toString());
+        //pacienteNuevo.setId_obra_social(((ObraSocial) spObraSocial.getSelectedItem()).getId());
+        /*Glide
+                .with(ProfileActivity.this)
+                .load(URLConection.URLPrivadaIMG + ((ObraSocial) spObraSocial.getSelectedItem()).getFoto())
+                //.fitCenter()
+                //.override(300,300)
+                .into(ivObraSocial);*/
 
         Log.d("paciente", "paciente nuevo por actualizar### " + pacienteNuevo.toString());
 
@@ -387,7 +461,7 @@ public class ProfileActivity extends AppCompatActivity {
             // Crea el cuerpo de la solicitud
             RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), base64Image);
             pacienteNuevo.setFoto(requestBody);
-            Log.d("nueva foto",pacienteNuevo.getFoto().toString());
+            Log.d("nueva foto", pacienteNuevo.getFoto().toString());
         }
     }
 
