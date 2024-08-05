@@ -3,6 +3,7 @@ package com.example.salus.adaptador;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.salus.ApiClient;
 import com.example.salus.ApiDjango;
 import com.example.salus.EditarTurnoActivity;
 import com.example.salus.R;
 import com.example.salus.dao.URLConection;
+import com.example.salus.entidad.Medico;
 import com.example.salus.entidad.MiTurno;
+import com.example.salus.entidad.PacienteRequest;
+import com.example.salus.entidad.PacienteResponse;
+import com.example.salus.entidad.Turno;
+import com.example.salus.entidad.TurnoDisponible;
 import com.example.salus.login;
 
 import java.util.List;
@@ -31,6 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoViewHolder> {
     private List<MiTurno> miTurnoList;
     private Context context;
+    private static String msn;
 
     public MiTurnoAdapter(List<MiTurno> miTurnoList, Context context) {
         this.miTurnoList = miTurnoList;
@@ -79,8 +87,80 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
         }
 
         public void bind(MiTurno miTurno) {
-            tvTurnoDetalle.setText(miTurno.toString());
+            if (miTurno != null) {
+                msn = "Obra Social: " + miTurno.getObra_social() + "\n";
+                msn += "Estado: " + miTurno.getEstado() + "\n";
+                obtenerTurnoDisponible(miTurno, tvTurnoDetalle);
+            }
+
+
         }
+    }
+
+    private void probandoApi() {
+        Call<List<Turno>> call = ApiClient.getClient().getTurnos();
+        call.enqueue(new Callback<List<Turno>>() {
+            @Override
+            public void onResponse(Call<List<Turno>> call, Response<List<Turno>> response) {
+                if (response.isSuccessful()) {
+                    List<Turno> lt = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Turno>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void obtenerTurnoDisponible(MiTurno miTurno, TextView tvTurnoDetalle) {
+        Call<TurnoDisponible> call = ApiClient.getClient().getTurnosDisponiblesPorId(miTurno.getTurno_disponible());
+        call.enqueue(new Callback<TurnoDisponible>() {
+            @Override
+            public void onResponse(Call<TurnoDisponible> call, Response<TurnoDisponible> response) {
+                if (response.isSuccessful()) {
+                    TurnoDisponible td = response.body();
+                    if (td != null) {
+                        msn += "Dia: " + td.getDia() + "\n";
+                        msn += "Hora: " + td.getHora() + "\n";
+                        obtenerMedico(miTurno, tvTurnoDetalle);
+                    }
+                } else {
+                    Toast.makeText(context, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TurnoDisponible> call, Throwable t) {
+                Toast.makeText(context, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //msn += "$2";
+    }
+
+    private void obtenerMedico(MiTurno miTurno, TextView tvTurnoDetalle) {
+        Call<Medico> call = ApiClient.getClient().getMedicoId(miTurno.getId_medico());
+        call.enqueue(new Callback<Medico>() {
+            @Override
+            public void onResponse(Call<Medico> call, Response<Medico> response) {
+                if (response.isSuccessful()) {
+                    Medico m = response.body();
+                    if (m != null) {
+                        msn += "Matricula: " + m.getMatricula() + "\n";
+                        msn += "Medico: " + m.getApellido() + "\n";
+                        tvTurnoDetalle.setText(msn);
+                    }
+                } else {
+                    Toast.makeText(context, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Medico> call, Throwable t) {
+                Toast.makeText(context, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void eliminarTurno(int turnoId, int position) {

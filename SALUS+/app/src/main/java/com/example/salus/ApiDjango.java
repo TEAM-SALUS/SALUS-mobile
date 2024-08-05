@@ -38,18 +38,21 @@ public interface ApiDjango {
     @FormUrlEncoded
     @POST("login")
     Call<Autorizacion> LOGIN_CALL(
-      @Field("username") String username,
-      @Field("password") String password
+            @Field("username") String username,
+            @Field("password") String password
     );
 
 
     //____ TURNOS ____
     @GET("turno")
     Call<List<Turno>> getTurnos();
+
     @DELETE("turno/{id}")
     Call<Void> eliminarTurno(@Path("id") int id);
+
     @PUT("turno/{id}")
     Call<Turno> actualizarTurno(@Path("id") @Body Turno turno);
+
     @FormUrlEncoded
     @POST("turno/")
     Call<Turno> agregarTurno(
@@ -65,11 +68,13 @@ public interface ApiDjango {
     //____ REGISTRO ____
     @POST("registro")
     Call<RegisterResponse> registerUser(@Body RegisterRequest registerRequest);
+
     @GET("/api/v1/profile")
     Call<UserProfileResponse> getUserProfile(@Header("Authorization") String token);
 
     @POST("paciente-registro")
     Call<UsuarioResponse> registerPaciente(@Header("Authorization") String token, @Body PacienteRequest pacienteRequest);
+
     //____ PERFIL ____
     @GET("/api/v1/profile")
     Call<UserProfile> getProfile(@Header("Authorization") String token);
@@ -97,15 +102,23 @@ public interface ApiDjango {
     Call<List<HorarioDeAtencion>> getHorariosAtencionPorMedico(@Path("medico_id") int medicoId);
 
 
-
     //____ Profesional ____
     @GET("medico")
     Call<List<Medicos>> getMedicos();
+
+    @GET("medico/{id}")
+    Call<Medico> getMedicoId(@Path("id") int idMedico);
+
     // TURNOS DISPONIBLES
     @GET("turnos-disponibles/")
     Call<List<TurnoDisponible>> getTurnosDisponiblesPorMedico(@Query("medico") int medicoId);
+
+    @GET("turnos-disponibles/{id}")
+    Call<TurnoDisponible> getTurnosDisponiblesPorId(@Path("id") int tunoId);
+
     @POST("crear-turno/")
     Call<NuevoTurno> crearTurno(@Body NuevoTurno nuevoTurno);
+
     // Obtener todos los turnos de un paciente
     @GET("turnos-por-paciente/")
     Call<List<MiTurno>> getMiTurnosPorPaciente(@Header("Authorization") String token, @Query("id_paciente") int idPaciente);
@@ -121,6 +134,7 @@ public interface ApiDjango {
     // Eliminar un turno específico
     @DELETE("turno-reservado/{id}/")
     Call<Void> eliminarMiTurnoReservado(@Header("Authorization") String token, @Path("id") int id);
+
 
 /*
     //____ Pago ____
