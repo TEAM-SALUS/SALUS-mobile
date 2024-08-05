@@ -19,7 +19,7 @@ public class DetalleTurno extends AppCompatActivity {
         setContentView(R.layout.activity_detalle_turno);
 
         // Obtener referencias a los elementos de la interfaz
-        tvTurnoDetalle = findViewById(R.id.tvTurnoDetalle);
+        tvTurnoDetalle = findViewById(R.id.tvEspecialidadTurno);
         btnEditar = findViewById(R.id.btnEditar);
         btnEliminar = findViewById(R.id.btnEliminar);
 

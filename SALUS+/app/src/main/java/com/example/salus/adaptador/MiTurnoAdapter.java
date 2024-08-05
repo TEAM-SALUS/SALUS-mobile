@@ -21,8 +21,6 @@ import com.example.salus.R;
 import com.example.salus.dao.URLConection;
 import com.example.salus.entidad.Medico;
 import com.example.salus.entidad.MiTurno;
-import com.example.salus.entidad.PacienteRequest;
-import com.example.salus.entidad.PacienteResponse;
 import com.example.salus.entidad.Turno;
 import com.example.salus.entidad.TurnoDisponible;
 import com.example.salus.login;
@@ -38,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoViewHolder> {
     private List<MiTurno> miTurnoList;
     private Context context;
-    private static String msn;
+    //private static String msn;
 
     public MiTurnoAdapter(List<MiTurno> miTurnoList, Context context) {
         this.miTurnoList = miTurnoList;
@@ -64,12 +62,20 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
     }
 
     public class MiTurnoViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTurnoDetalle;
+        TextView tvEspecialidadTurno;
+        TextView tvFechaTurno;
+        TextView tvHoraTurno;
+        TextView tvMedicoTurno;
+        TextView tvObraSocialTurno;
         Button btnEditar, btnEliminar;
 
         public MiTurnoViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTurnoDetalle = itemView.findViewById(R.id.tvTurnoDetalle);
+            tvEspecialidadTurno = itemView.findViewById(R.id.tvEspecialidadTurno);
+            tvFechaTurno = itemView.findViewById(R.id.tvFechaTurno);
+            tvHoraTurno = itemView.findViewById(R.id.tvHoraTurno);
+            tvMedicoTurno = itemView.findViewById(R.id.tvMedicoTurno);
+            tvObraSocialTurno = itemView.findViewById(R.id.tvObraSocialTurno);
             btnEditar = itemView.findViewById(R.id.btnEditar);
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
 
@@ -88,9 +94,9 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
 
         public void bind(MiTurno miTurno) {
             if (miTurno != null) {
-                msn = "Obra Social: " + miTurno.getObra_social() + "\n";
-                msn += "Estado: " + miTurno.getEstado() + "\n";
-                obtenerTurnoDisponible(miTurno, tvTurnoDetalle);
+                tvObraSocialTurno.setText("Obra Social: "+miTurno.getObra_social());
+                //msn += "Estado: " + miTurno.getEstado() + "\n";
+                obtenerTurnoDisponible(miTurno, tvFechaTurno, tvHoraTurno, tvMedicoTurno);
             }
 
 
@@ -114,7 +120,7 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
         });
     }
 
-    private void obtenerTurnoDisponible(MiTurno miTurno, TextView tvTurnoDetalle) {
+    private void obtenerTurnoDisponible(MiTurno miTurno, TextView tvFechaTurno, TextView tvHoraTurno, TextView tvMedico) {
         Call<TurnoDisponible> call = ApiClient.getClient().getTurnosDisponiblesPorId(miTurno.getTurno_disponible());
         call.enqueue(new Callback<TurnoDisponible>() {
             @Override
@@ -122,24 +128,27 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
                 if (response.isSuccessful()) {
                     TurnoDisponible td = response.body();
                     if (td != null) {
-                        msn += "Dia: " + td.getDia() + "\n";
-                        msn += "Hora: " + td.getHora() + "\n";
-                        obtenerMedico(miTurno, tvTurnoDetalle);
+                        //msn += "Dia: " + td.getDia() + "\n";
+                        //msn += "Hora: " + td.getHora() + "\n";
+                        tvFechaTurno.setText("Fecha: "+td.getDia());
+                        tvHoraTurno.setText("Hora: "+td.getHora());
+                        obtenerMedico(miTurno, tvMedico);
                     }
                 } else {
-                    Toast.makeText(context, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Turno disponible no obtenido", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<TurnoDisponible> call, Throwable t) {
-                Toast.makeText(context, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error al obtener turno disponible", Toast.LENGTH_SHORT).show();
+                Log.e("Error al obtener turno", t.toString());
             }
         });
         //msn += "$2";
     }
 
-    private void obtenerMedico(MiTurno miTurno, TextView tvTurnoDetalle) {
+    private void obtenerMedico(MiTurno miTurno, TextView tvMedico) {
         Call<Medico> call = ApiClient.getClient().getMedicoId(miTurno.getId_medico());
         call.enqueue(new Callback<Medico>() {
             @Override
@@ -147,18 +156,18 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
                 if (response.isSuccessful()) {
                     Medico m = response.body();
                     if (m != null) {
-                        msn += "Matricula: " + m.getMatricula() + "\n";
-                        msn += "Medico: " + m.getApellido() + "\n";
-                        tvTurnoDetalle.setText(msn);
+                        //msn += "Matricula: " + m.getMatricula() + "\n";
+                        //msn += "Medico: " + m.getApellido() + "\n";
+                        tvMedico.setText("Profesional: "+m.getApellido());
                     }
                 } else {
-                    Toast.makeText(context, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Medico no obtenido", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Medico> call, Throwable t) {
-                Toast.makeText(context, "Algo salio mal o Error en las credenciales", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error al obtener medico", Toast.LENGTH_SHORT).show();
             }
         });
     }
