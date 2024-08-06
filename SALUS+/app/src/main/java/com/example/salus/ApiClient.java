@@ -11,7 +11,7 @@ public class ApiClient {
      * Localhost IP for AVD emulators: 10.0.2.2
      * http://192.168.0.44:8000/api/v1/
      */
-    private static final String BASE_URL = "http://192.168.0.44:8000/api/v1/";
+    private static final String BASE_URL = "http://172.20.10.4:8000/api/v1/";
 
     // Método para obtener una instancia de Retrofit
     public static ApiDjango getClient() {

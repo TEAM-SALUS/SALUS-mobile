@@ -7,7 +7,7 @@ public abstract class URLConection {
     //public final static String URLPrivada = "http://192.168.0.237:8000/api/v1/";
 
 
-    public final static String URLPrivada = "http://192.168.0.44:8000/api/v1/";
+    public final static String URLPrivada = "http://172.20.10.4:8000/api/v1/";
    //public final static String URLPrivada = "http://192.168.1.92:8000/api/v1/";
 
     //public final static String URLPrivada = "http://192.168.0.26:8000/api/v1/";

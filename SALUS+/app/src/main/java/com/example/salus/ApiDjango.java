@@ -95,6 +95,9 @@ public interface ApiDjango {
     @GET("especialidad")
     Call<List<Especialidad>> getEspecialidades();
 
+    @GET("especialidad/{id}")
+    Call<Especialidad> getEspecialidadId(@Path("id") int idEspecialidad);
+
     @GET("medico/especialidad/{especialidadId}")
     Call<List<Medico>> getMedicosPorEspecialidad(@Path("especialidadId") int especialidadId);
 

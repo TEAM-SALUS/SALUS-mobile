@@ -19,6 +19,7 @@ import com.example.salus.ApiDjango;
 import com.example.salus.EditarTurnoActivity;
 import com.example.salus.R;
 import com.example.salus.dao.URLConection;
+import com.example.salus.entidad.Especialidad;
 import com.example.salus.entidad.Medico;
 import com.example.salus.entidad.MiTurno;
 import com.example.salus.entidad.Turno;
@@ -96,7 +97,7 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
             if (miTurno != null) {
                 tvObraSocialTurno.setText("Obra Social: "+miTurno.getObra_social());
                 //msn += "Estado: " + miTurno.getEstado() + "\n";
-                obtenerTurnoDisponible(miTurno, tvFechaTurno, tvHoraTurno, tvMedicoTurno);
+                obtenerTurnoDisponible(miTurno, tvEspecialidadTurno, tvFechaTurno, tvHoraTurno, tvMedicoTurno);
             }
 
 
@@ -120,7 +121,7 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
         });
     }
 
-    private void obtenerTurnoDisponible(MiTurno miTurno, TextView tvFechaTurno, TextView tvHoraTurno, TextView tvMedico) {
+    private void obtenerTurnoDisponible(MiTurno miTurno, TextView tvEspecialidadTurno, TextView tvFechaTurno, TextView tvHoraTurno, TextView tvMedico) {
         Call<TurnoDisponible> call = ApiClient.getClient().getTurnosDisponiblesPorId(miTurno.getTurno_disponible());
         call.enqueue(new Callback<TurnoDisponible>() {
             @Override
@@ -132,7 +133,7 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
                         //msn += "Hora: " + td.getHora() + "\n";
                         tvFechaTurno.setText("Fecha: "+td.getDia());
                         tvHoraTurno.setText("Hora: "+td.getHora());
-                        obtenerMedico(miTurno, tvMedico);
+                        obtenerMedico(miTurno, tvMedico, tvEspecialidadTurno);
                     }
                 } else {
                     Toast.makeText(context, "Turno disponible no obtenido", Toast.LENGTH_SHORT).show();
@@ -148,7 +149,7 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
         //msn += "$2";
     }
 
-    private void obtenerMedico(MiTurno miTurno, TextView tvMedico) {
+    private void obtenerMedico(MiTurno miTurno, TextView tvMedico, TextView tvEspecialidadTurno) {
         Call<Medico> call = ApiClient.getClient().getMedicoId(miTurno.getId_medico());
         call.enqueue(new Callback<Medico>() {
             @Override
@@ -159,6 +160,7 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
                         //msn += "Matricula: " + m.getMatricula() + "\n";
                         //msn += "Medico: " + m.getApellido() + "\n";
                         tvMedico.setText("Profesional: "+m.getApellido());
+                        obtenerEspecialidad(m, tvEspecialidadTurno);
                     }
                 } else {
                     Toast.makeText(context, "Medico no obtenido", Toast.LENGTH_SHORT).show();
@@ -170,6 +172,32 @@ public class MiTurnoAdapter extends RecyclerView.Adapter<MiTurnoAdapter.MiTurnoV
                 Toast.makeText(context, "Error al obtener medico", Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    private void obtenerEspecialidad(Medico medico, TextView tvEspecialidadTurno) {
+        Call<Especialidad> call = ApiClient.getClient().getEspecialidadId(medico.getId_especialidad());
+        call.enqueue(new Callback<Especialidad>() {
+            @Override
+            public void onResponse(Call<Especialidad> call, Response<Especialidad> response) {
+                if (response.isSuccessful()) {
+                    Especialidad e = response.body();
+                    if (e != null) {
+                        //msn += "Matricula: " + m.getMatricula() + "\n";
+                        //msn += "Medico: " + m.getApellido() + "\n";
+                        tvEspecialidadTurno.setText(e.getNombre());
+                    }
+                } else {
+                    Toast.makeText(context, "Especialidad no obtenida", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Especialidad> call, Throwable t) {
+                Toast.makeText(context, "Error al obtener especialidad", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void eliminarTurno(int turnoId, int position) {
