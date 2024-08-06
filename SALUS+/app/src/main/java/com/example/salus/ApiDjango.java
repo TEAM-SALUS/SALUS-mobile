@@ -116,7 +116,7 @@ public interface ApiDjango {
     @GET("turnos-disponibles/")
     Call<List<TurnoDisponible>> getTurnosDisponiblesPorMedico(@Query("medico") int medicoId);
 
-    @GET("turnos-disponibles/{id}")
+    @GET("turnosdisponibles/{id}")
     Call<TurnoDisponible> getTurnosDisponiblesPorId(@Path("id") int tunoId);
 
     @POST("crear-turno/")
