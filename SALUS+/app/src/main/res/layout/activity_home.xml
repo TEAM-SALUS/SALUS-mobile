@@ -38,12 +38,13 @@
 
     <ImageButton
         android:id="@+id/wpp"
-        android:layout_width="46dp"
-        android:layout_height="62dp"
+        android:layout_width="59dp"
+        android:layout_height="60dp"
         android:layout_marginTop="149dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="#FFFFFF"
+        android:contentDescription="Whatsapp"
         android:foregroundTint="#FFFFFF"
         android:src="@drawable/wpp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView4"
@@ -123,21 +124,19 @@
                             android:layout_height="88dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="20dp"
-                            android:contentDescription="icprofesional"
-                            android:onClick="irProfesionales"
-                            android:src="@drawable/medico_29" />
+                            android:src="@drawable/profesionales"
+                            app:srcCompat="@drawable/profesionales" />
 
                         <Button
                             android:id="@+id/button1"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_gravity="center_horizontal"
-                            android:backgroundTint="@color/orange"
+                            android:backgroundTint="#83D9FE"
                             android:onClick="irProfesionales"
-                            android:text="Profesional"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
+                            android:text="Profesionales"
+                            android:textColor="#292929"
+                            android:textSize="14sp"
                             app:layout_constraintBottom_toTopOf="@+id/ic1"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -164,25 +163,25 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/ic2"
+                            android:id="@+id/ic7"
                             android:layout_width="88dp"
                             android:layout_height="88dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="20dp"
-                            android:contentDescription="@null"
-                            android:src="@drawable/service_8" />
+                            android:contentDescription="consultas"
+                            android:onClick="irConsultas"
+                            android:src="@drawable/ic_consulta" />
 
                         <Button
-                            android:id="@+id/button2"
+                            android:id="@+id/HomeActivity_btnIrConsultas"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_gravity="center_horizontal"
-                            android:backgroundTint="@color/orange"
+                            android:backgroundTint="#83D9FE"
                             android:onClick="irServicios"
-                            android:text="@string/Servicios"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
+                            android:text="Consultas"
+                            android:textColor="#292929"
+                            android:textSize="14sp"
                             app:layout_constraintBottom_toTopOf="@+id/button2"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -222,12 +221,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_gravity="center_horizontal"
-                            android:backgroundTint="@color/orange"
+                            android:backgroundTint="#83D9FE"
                             android:onClick="irTurnos"
-                            android:text="@string/turnos"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
+                            android:text="Mis Turnos"
+                            android:textColor="#292929"
+                            android:textSize="14sp"
                             app:layout_constraintBottom_toTopOf="@id/ic3"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -258,7 +256,7 @@
                             android:layout_height="88dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="20dp"
-                            android:contentDescription="@null"
+                            android:contentDescription="contacto"
                             android:onClick="irContacto"
                             android:src="@drawable/contacto_2" />
 
@@ -267,12 +265,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_gravity="center_horizontal"
-                            android:backgroundTint="@color/orange"
+                            android:backgroundTint="#83D9FE"
                             android:onClick="irContacto"
                             android:text="Contacto"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
+                            android:textColor="#292929"
+                            android:textSize="14sp"
                             app:layout_constraintBottom_toTopOf="@id/ic4"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -283,55 +280,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_row="3"
                     android:layout_rowWeight="1"
-                    android:layout_column="0"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="12dp"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="12dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/ic5"
-                            android:layout_width="88dp"
-                            android:layout_height="88dp"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="20dp"
-                            android:contentDescription="@null"
-                            android:onClick="irLogout"
-                            android:src="@drawable/logout_23" />
-
-                        <Button
-                            android:id="@+id/button5"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_gravity="center_horizontal"
-                            android:backgroundTint="@color/orange"
-                            android:onClick="irLogout"
-                            android:text="@string/logout"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@id/ic5"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_row="3"
-                    android:layout_rowWeight="1"
-                    android:layout_column="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="12dp"
                     app:cardCornerRadius="15dp"
@@ -349,7 +298,7 @@
                             android:layout_height="88dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="20dp"
-                            android:contentDescription="@null"
+                            android:contentDescription="perfil"
                             android:onClick="irLogout"
                             android:src="@drawable/perfil_user" />
 
@@ -358,11 +307,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_gravity="center_horizontal"
-                            android:backgroundTint="@color/orange"
-                            android:text="@string/perfil"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
+                            android:backgroundTint="#83D9FE"
+                            android:text="Mi Perfil"
+                            android:textColor="#292929"
+                            android:textSize="14sp"
                             app:layout_constraintBottom_toTopOf="@id/ic6"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -374,9 +322,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_row="4"
                     android:layout_rowWeight="1"
-                    android:layout_column="0"
                     android:layout_columnWeight="1"
                     android:layout_margin="12dp"
                     app:cardCornerRadius="15dp"
@@ -389,26 +335,26 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/ic7"
+                            android:id="@+id/ic5"
                             android:layout_width="88dp"
                             android:layout_height="88dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="20dp"
-                            android:contentDescription="@null"
-                            android:onClick="irConsultas"
-                            android:src="@drawable/ic_consulta" />
+                            android:contentDescription="salir"
+                            android:onClick="irLogout"
+                            android:src="@drawable/logout_23" />
 
                         <Button
-                            android:id="@+id/HomeActivity_btnIrConsultas"
+                            android:id="@+id/button5"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_gravity="center_horizontal"
-                            android:backgroundTint="@color/orange"
-                            android:text="@string/consultas"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@id/ic7"
+                            android:backgroundTint="#83D9FE"
+                            android:onClick="irLogout"
+                            android:text="Cerrar Sesión"
+                            android:textColor="#292929"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toTopOf="@id/ic5"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
 
@@ -417,6 +363,27 @@
                 </androidx.cardview.widget.CardView>
 
             </GridLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="#83D9FE"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#83D9FE"
+                    android:onClick="linkWeb"
+                    android:text="También podes ingresasr a nuestra página web desde acá."
+                    android:textColor="#3E3E3E"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

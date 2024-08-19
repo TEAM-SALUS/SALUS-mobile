@@ -41,16 +41,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_especialidad"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center|start"
-                    android:text="Especialidad"
-                    android:textColor="#A3000000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
                     android:id="@+id/tv_hora"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

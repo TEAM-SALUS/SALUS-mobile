@@ -23,7 +23,7 @@ public class PacienteResponse {
 
     // Getters y Setters
     public int getId() {
-        return id;
+       return id;
     }
 
     public void setId(int id) {
@@ -84,5 +84,18 @@ public class PacienteResponse {
 
     public void setPacienteUser(int pacienteUser) {
         this.pacienteUser = pacienteUser;
+    }
+    @Override
+    public String toString() {
+        return "PacienteResponse{" +
+                "id=" + id +
+                ", dni_paciente='" + dni_paciente + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", email='" + email + '\'' +
+                ", clave='" + clave + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", pacienteUser=" + pacienteUser +
+                '}';
     }
 }

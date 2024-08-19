@@ -7,17 +7,27 @@ public class PacienteRequest {
     private String email;
     private String clave;
     private String telefono;
+    private int pacienteUser;
 
-    public PacienteRequest(String dni_paciente, String nombre, String apellido, String email, String clave, String telefono) {
+    public PacienteRequest(String dni_paciente, String nombre, String apellido, String email, String clave, String telefono, int pacienteUser) {
         this.dni_paciente = dni_paciente;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.clave = clave;
         this.telefono = telefono;
+        this.pacienteUser = pacienteUser;
     }
 
     // Getters y Setters
+    public int getPacienteUser() {
+        return pacienteUser;
+    }
+
+    public void setPacienteUser(int pacienteUser) {
+        this.pacienteUser = pacienteUser;
+    }
+
     public String getDni_paciente() {
         return dni_paciente;
     }

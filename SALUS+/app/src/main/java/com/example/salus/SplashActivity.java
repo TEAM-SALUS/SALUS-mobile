@@ -198,7 +198,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void init() {
-        int tiempo = 20000;
+        int tiempo = 20;
 
         new Handler().postDelayed(new Runnable() {
             @Override

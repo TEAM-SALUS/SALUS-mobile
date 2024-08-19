@@ -48,7 +48,7 @@
             android:gravity="center"
             android:onClick="irHome"
             android:text="Volver al inicio"
-            android:textColor="#98000000" />
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 

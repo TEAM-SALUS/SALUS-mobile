@@ -37,7 +37,13 @@ public class home extends AppCompatActivity
     Button log;
     private Button perfil;
     ImageButton wpp;
+
     private Button consultas;
+    private String token;
+    private int id;
+
+    private Button btn_link;
+
 
     @SuppressLint({"MissingInflatedId"})
     @Override
@@ -55,6 +61,7 @@ public class home extends AppCompatActivity
         perfil = findViewById(R.id.button6);
         wpp = findViewById(R.id.wpp);
         consultas = findViewById(R.id.HomeActivity_btnIrConsultas);
+        btn_link = findViewById(R.id.btn_link);
 
         wpp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,34 +80,42 @@ public class home extends AppCompatActivity
         int userDni = sharedPref.getInt(login.DNI_CLIENT, 0);
         Toast.makeText(home.this,String.valueOf(userDni), Toast.LENGTH_LONG).show();
 
+
+        // ---- PROFESIONALES ----
         prof.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(home.this,EspecialidadesActivity.class);
+                Intent i = new Intent(home.this, EspecialidadesActivity.class);
                 //i.putExtra("dniCliente",(int) extras.get("dniCliente"));
                 startActivity(i);
 
             }
         });
 
-        serv.setOnClickListener(new View.OnClickListener() {
+
+        // ---- CONSULTAS ----
+        consultas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent( home.this,Servicios.class);
-                //i.putExtra("dniCliente",(int) extras.get("dniCliente"));
+                Intent i = new Intent(home.this,ConsultasActivity.class);
                 startActivity(i);
             }
         });
 
+
+
+        // ---- MSI TURNOS ----
         turnos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent ( home.this, Turnos.class);
+                Intent i = new Intent ( home.this, MisTurnos.class);
                 //i.putExtra("dniCliente",(int) extras.get("dniCliente"));
                 startActivity(i);
             }
         });
 
+
+        // ---- CONTACTO ----
         contacto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +124,8 @@ public class home extends AppCompatActivity
             }
         });
 
+
+        // ---- SALIR ----
         log.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -121,14 +138,36 @@ public class home extends AppCompatActivity
                 startActivity(i);
             }
         });
+
+
+
+        // ---- PERFIL ----
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("Entro perfil? ","entro");
-                Intent i = new Intent(home.this, PerfilActivity.class);
+                Intent i = new Intent(home.this, ProfileActivity.class);
+                i.putExtra("token", token);
+                i.putExtra("id", id);
                 startActivity(i);
             }
         });
+
+
+
+        // ---- INGRESAR A LA APP WEB ----
+        btn_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("https://www.ispc.edu.ar/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+
+
+        /*
+        // ---- CONSULTAS ----
         consultas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +175,10 @@ public class home extends AppCompatActivity
                 startActivity(i);
             }
         });
+
+         */
     }
+
 
     private String getTodaysDate()
     {

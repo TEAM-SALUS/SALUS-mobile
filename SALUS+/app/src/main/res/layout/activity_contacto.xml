@@ -103,7 +103,7 @@
                 android:backgroundTint="#83D9FE"
                 android:onClick="enviarMensaje"
                 android:text="Enviar mensaje"
-                android:textColor="#AA000000"
+                android:textColor="#FFFFFF"
                 android:textColorLink="#000000"
                 android:textSize="12sp" />
 

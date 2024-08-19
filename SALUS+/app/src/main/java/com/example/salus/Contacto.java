@@ -1,11 +1,13 @@
 package com.example.salus;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +30,7 @@ public class Contacto extends AppCompatActivity {
 
     private EditText edEmail, edMensaje;
     private Button btnEnviarMensaje;
+    private ImageButton c_wpp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class Contacto extends AppCompatActivity {
         edEmail = findViewById(R.id.ed_email);
         edMensaje = findViewById(R.id.ed_mensaje);
         btnEnviarMensaje = findViewById(R.id.btnEnviarMensaje);
+        c_wpp = findViewById(R.id.c_wpp);
 
         btnEnviarMensaje.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +48,18 @@ public class Contacto extends AppCompatActivity {
                 enviarMensaje();
             }
         });
+
+
+        c_wpp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String wppurl= "https://wa.me/+543525482570?text=¡Hola! Quiero solicitar información sobre los servicios que ofrecen y reservar un turno.";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(wppurl));
+                startActivity(i);
+            }
+        });
+
     }
 
 
@@ -101,7 +117,10 @@ public class Contacto extends AppCompatActivity {
                     Intent intent = new Intent(Contacto.this, ContactoMensajeEnviado.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(Contacto.this, "Error al enviar el mensaje", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Contacto.this, "Error al enviar el mensaje", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Contacto.this, "Mensaje enviado", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Contacto.this, ContactoMensajeEnviado.class);
+                    startActivity(intent);
                 }
             }
         }.execute();

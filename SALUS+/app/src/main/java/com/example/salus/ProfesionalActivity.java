@@ -1,6 +1,136 @@
 package com.example.salus;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.salus.adaptador.MedicoAdapter;
+import com.example.salus.dao.URLConection;
+import com.example.salus.entidad.HorarioDeAtencion;
+import com.example.salus.entidad.Medico;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class ProfesionalActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private MedicoAdapter adapter;
+    private List<Medico> medicos = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profesional);
+
+        recyclerView = findViewById(R.id.recyclerViewMedicos);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        int especialidadId = getIntent().getIntExtra("especialidadId", -1);
+        Log.d("ProfesionalActivity", "especialidadId: " + especialidadId);
+        if (especialidadId != -1) {
+            obtenerMedicosPorEspecialidad(especialidadId);
+        }
+    }
+
+    private void obtenerMedicosPorEspecialidad(int especialidadId) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLConection.URLPrivada)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiDjango api = retrofit.create(ApiDjango.class);
+        Call<List<Medico>> call = api.getMedicosPorEspecialidad( especialidadId );
+
+        call.enqueue(new Callback<List<Medico>>() {
+            @Override
+            public void onResponse(Call<List<Medico>> call, Response<List<Medico>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    medicos = response.body();
+                    for (Medico medico : medicos) {
+                        obtenerHorariosDeAtencion(medico.getId());
+                    }
+                } else {
+                    Toast.makeText(ProfesionalActivity.this, "Error al obtener médicos", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Medico>> call, Throwable t) {
+                Toast.makeText(ProfesionalActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void obtenerHorariosDeAtencion(final int medicoId) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLConection.URLPrivada)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiDjango api = retrofit.create(ApiDjango.class);
+        Call<List<HorarioDeAtencion>> call = api.getHorariosAtencionPorMedico(medicoId);
+        Log.d("ProfesionalActivity", "ID del médico: " + medicoId);
+        call.enqueue(new Callback<List<HorarioDeAtencion>>() {
+            @Override
+            public void onResponse(Call<List<HorarioDeAtencion>> call, Response<List<HorarioDeAtencion>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<HorarioDeAtencion> horarios = response.body();
+                    for (Medico medico : medicos) {
+                        if (medico.getId() == medicoId) {
+                            medico.setHorariosDeAtencion(horarios);
+                            break;
+                        }
+                    }
+                    if (todosLosMedicosTienenHorarios()) {
+                        mostrarListaMedicos();
+                    }
+                } else {
+                    Toast.makeText(ProfesionalActivity.this, "Error al obtener horarios de atención", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HorarioDeAtencion>> call, Throwable t) {
+                Toast.makeText(ProfesionalActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private boolean todosLosMedicosTienenHorarios() {
+        for (Medico medico : medicos) {
+            if (medico.getHorariosDeAtencion() == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void mostrarListaMedicos() {
+        adapter = new MedicoAdapter(medicos, ProfesionalActivity.this);
+        recyclerView.setAdapter(adapter);
+    }
+}
+
+
+
+/*package com.example.salus;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.content.Context;;
 import android.util.Log;
@@ -169,4 +299,4 @@ public class ProfesionalActivity extends AppCompatActivity {
 
 
     }
-}
+}*/

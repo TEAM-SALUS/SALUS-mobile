@@ -1,0 +1,20 @@
+<!-- En res/layout/activity_editar_turno.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/etObraSocial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Obra Social" />
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar" />
+
+</LinearLayout>

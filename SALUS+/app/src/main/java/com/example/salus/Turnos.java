@@ -1,25 +1,18 @@
 package com.example.salus;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.salus.adaptador.EspecialidadesAdapter;
-import com.example.salus.adaptador.TurnosAdaptador;
-import com.example.salus.dao.URLConection;
-import com.example.salus.entidad.Especialidad;
-import com.example.salus.entidad.Turno;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -33,13 +26,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Turnos extends AppCompatActivity {
     private RecyclerView recyclerTurno;
-    private TurnosAdaptador turnosAdaptador;
-    public  EspecialidadesAdapter especialidadesAdapter;
+    //private TurnosAdaptador turnosAdaptador;
+    //public EspecialidadesAdapter especialidadesAdapter;
     private Context context;
     private ApiDjango api;
     ImageButton turno_wpp;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,19 +51,11 @@ public class Turnos extends AppCompatActivity {
             }
         });
 
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(logging);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URLConection.URLPrivada)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient.build())
-                .build();
+        /* Obtener la instancia de Retrofit usando ApiClient y la URL base
+        Retrofit retrofit = ApiClient.getClient(URLConection.URLPrivada);
+        api = retrofit.create(ApiDjango.class);
 
         // Obtener toda la lista de los turnos
-        api = retrofit.create(ApiDjango.class);
         Call<List<Turno>> call = api.getTurnos();
         call.enqueue(new Callback<List<Turno>>() {
             @Override
@@ -94,38 +78,45 @@ public class Turnos extends AppCompatActivity {
                 Log.e("Turnos", "Error al realizar la llamada a la API.", t);
                 Toast.makeText(Turnos.this, "Error. Detalles: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
+        });*/
+/*
+        Button botonPagar = findViewById(R.id.botonPagar);
+        botonPagar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Pago pago = new Pago();
+                pago.setMonto(100);  // Establecer el monto
+                pago.setFecha("2024-06-06");  // Establecer la fecha
+                pago.setHora("10:00:00");  // Establecer la hora
+                pago.setEstado("Pendiente");  // Establecer el estado
+                pago.setId_turno(1);  // Establecer el ID del turno
+
+                realizarPago(pago);
+            }
         });
 
+        recyclerPago = findViewById(R.id.recyclerPago);
+    }
 
-        /*
-        // Obtener las especialidades
-        Call<List<Especialidad>> callE = api.getEspecialidades();
-        call.enqueue(new Callback<List<Especialidad>>() {
+    public void realizarPago(Pago pago) {
+        Call<Pago> call = api.pagar(pago);
+        call.enqueue(new Callback<Pago>() {
             @Override
-            public void onResponse(Call<List<Especialidad>> call, Response<List<Especialidad>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Especialidad> especialidades = response.body();
-                    }
-                    especialidadesAdapter = new TurnosAdaptador(especialidades, Especialidad.this, api);
-                    recyclerTurno.setAdapter(especialidadesAdapter);
-                    Toast.makeText(Turnos.this, "Especialidades funcionando", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<Pago> call, Response<Pago> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(Turnos.this, "Pago realizado exitosamente", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Turnos.this, "No se encontraron especialidades", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Turnos.this, "Error en el pago", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Turno>> call, Throwable t) {
-                Log.e("Turnos", "Error al realizar la llamada a la API.", t);
-                Toast.makeText(Turnos.this, "Error. Detalles: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            };
-        });
-    };
-*/
-
-
+            public void onFailure(Call<Pago> call, Throwable t) {
+                Toast.makeText(Turnos.this, "Error en la conexión", Toast.LENGTH_SHORT).show();
+            }
+        });*/
     }
-
+    /*
     public void eliminarTurno(int id, int position) {
         Call<Void> callEliminar = api.eliminarTurno(id);
         callEliminar.enqueue(new Callback<Void>() {
@@ -144,5 +135,5 @@ public class Turnos extends AppCompatActivity {
                 Toast.makeText(Turnos.this, "Error en la conexión", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }*/
 }
