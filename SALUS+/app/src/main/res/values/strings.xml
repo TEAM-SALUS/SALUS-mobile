@@ -36,17 +36,6 @@
     <string name="consultas">Consultas</string>
     <string name="ver_consulta">Ver consulta</string>
     <string name="ir_home">Ir Home</string>
-    <string name="email">Email:</string>
-    <string name="clave">Clave:</string>
-    <string name="dni">Dni:</string>
-    <string name="nombre">Nombre:</string>
-    <string name="apellido">Apellido:</string>
-    <string name="eliminar">Eliminar</string>
-    <string name="guardar">Guardar</string>
-    <string name="ingrese_su_apellido">Ingrese su apellido</string>
-    <string name="ingrese_su_tel_fono">Ingrese su teléfono</string>
-    <string name="ingrese_su_nombre">Ingrese su nombre</string>
-    <string name="ingrese_su_dni">Ingrese su dni</string>
-    <string name="ingrese_su_clave">Ingrese su clave</string>
-    <string name="ingrese_su_email">Ingrese su email</string>
+    <string name="doctor_photo">Foto del doctor</string>
+    <string name="ver_turnos_disponibles">Ver turnos disponibles</string>
 </resources>

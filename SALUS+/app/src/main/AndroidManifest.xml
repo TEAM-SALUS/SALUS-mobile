@@ -1,35 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
-
     <!-- Permisos necesarios -->
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- Características del dispositivo -->
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- Características del dispositivo -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_salus"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_salus_round"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Salus"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <!-- Actividades de la aplicación -->
-
-
-
         <activity
             android:name=".ConsultaActivity"
             android:parentActivityName=".ConsultasActivity">
@@ -44,19 +36,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".home" />
         </activity>
-
         <activity
             android:name=".ContactoMensajeEnviado"
             android:exported="false" />
-
         <activity
             android:name=".ProfileActivity"
-            android:parentActivityName=".home"
             android:exported="false"
-            android:label="Registro"/>
-
-
-
+            android:label="Registro"
+            android:parentActivityName=".home" />
         <activity
             android:name=".Contacto"
             android:parentActivityName=".home">
@@ -87,7 +74,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".home" />
         </activity>
-
         <activity
             android:name=".ServiciosOdon"
             android:parentActivityName=".home" />
@@ -111,18 +97,40 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".ProfesionalesActivity"
+            android:name=".ProfesionalActivity"
+            android:parentActivityName=".EspecialidadesActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".EspecialidadesActivity" />
+        </activity>
+        <activity
+            android:name=".TurnosDisponiblesActivity"
+            android:parentActivityName=".ProfesionalActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProfesionalActivity" />
+        </activity>
+        <activity
+            android:name=".ConfirmarTurnoActivity"
+            android:parentActivityName=".TurnosDisponiblesActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TurnosDisponiblesActivity" />
+        </activity>
+        <activity
+            android:name=".MisTurnos"
             android:parentActivityName=".home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".home" />
         </activity>
+
         <activity
-            android:name=".ProfesionalActivity"
-            android:parentActivityName=".ProfesionalesActivity">
+            android:name=".EditarTurnoActivity"
+            android:parentActivityName=".MisTurnos">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ProfesionalesActivity" />
+                android:value=".MisTurnos" />
         </activity>
         <activity
             android:name=".Turnos"
@@ -155,10 +163,10 @@
             </intent-filter>
         </activity>
 
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
 
 </manifest>

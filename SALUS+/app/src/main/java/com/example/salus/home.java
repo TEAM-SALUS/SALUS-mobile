@@ -108,7 +108,7 @@ public class home extends AppCompatActivity
         turnos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent ( home.this, Turnos.class);
+                Intent i = new Intent ( home.this, MisTurnos.class);
                 //i.putExtra("dniCliente",(int) extras.get("dniCliente"));
                 startActivity(i);
             }
